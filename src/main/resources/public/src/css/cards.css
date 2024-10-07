@@ -32,27 +32,29 @@
 }
 
 
-/* 이미지 기본 크기 */
-section:has(.website-list){
-    /* 각 웹사이트들의 스타일 */
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: start;
-    gap: 10px;
-}
+/* 
+이 구조로 통일함 
+<section class="website-list">
+    <div class="website-card">
+        <img class="website-img">
+    <div>
+</section> 
+
+*/
 .website-list{
     /* 모든 웹사이트의 공통 스타일  */
     display: flex;
-    flex-shrink: 0;
+    flex-basis: 100%;
     flex-wrap: wrap;
-
-    margin: 0 0 20px 0;
-    width: calc(50% - 5px);
+    justify-content: start;
+    flex-shrink: 0;
 }
 .website-card{
     /* 웹 사이트 하나의 스타일 */
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
+    margin-bottom:20px;
 }
 .website-img{
     width: 100%;

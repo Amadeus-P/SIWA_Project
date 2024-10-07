@@ -54,11 +54,13 @@
 
     --btn-height-1:32px;
 
+    --base-color-black: #000000;
+    --base-color-white: #FFFFFF;
     --base-color-1: #000000DD;
     --base-color-2: #333333DE;
     --base-color-3: #888888;
     --base-color-4: #00000019;
-    --base-color-white: #FFFFFF;
+
 
     --main-color-1: #009473;
 

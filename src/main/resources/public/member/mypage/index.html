@@ -17,45 +17,11 @@
     <title>Document</title>
     <style>
 
-section:has(.website-list){
-            /* 각 웹사이트들의 스타일 */
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: start;
-            gap: 10px;
-        }
-        .website-list{
-            /* 모든 웹사이트의 공통 스타일  */
-            display: flex;
-            flex-shrink: 0;
-            flex-wrap: wrap;
-
-            margin: 0 0 20px 0;
-            width: calc(50% - 5px);
-
-            /* 버튼 배치용 */
-            position: relative;
-        }
-        .website-card{
-            /* 웹 사이트 하나의 스타일 */
-            display: flex;
-            align-items: center;
-            >a{
-                display: flex;
-                flex-direction: column;
-            }
-        }
-        .website-img{
-            width: 100%;
-            height: auto;
-            object-fit:cover;
-            aspect-ratio: 16/9;
-        }
     </style>
 </head>
 <body>
     <header>
-        <h1>사이트 상세 페이지</h1>
+        <h1>내 페이지</h1>
         <section style="
                 margin: 20px 10px;
                 display: flex; justify-content: space-between;">
@@ -63,7 +29,7 @@ section:has(.website-list){
             <button class="icon:arrow-back text-hidden btn">뒤로가기</button>
         </section>
             <nav style="margin-top: 10px; flex-basis: 100%; justify-content: space-evenly;">
-                <h1>상단 슬라이드 메뉴</h1>
+                <h1>슬라이드 메뉴</h1>
                 <ul style="
                     display: flex;
                     flex-wrap: nowrap;
@@ -116,8 +82,6 @@ section:has(.website-list){
                         width: var(--icon-width-4); height: var(--icon-height-4);"
                             src="../../src/img/member/ico_ep2_01.png" alt="프로필 사진">
                         </div>
-                <a href="profile/detail.html" style="display: flex; flex-basis: 100%;">
-    
                     <div  style="display: flex; flex-direction: column; gap: 4px;">
                         <label>
                             <span style="font-size: var(--font-size-1); color: var(--base-color-3);">프로필 이름</span>
@@ -133,7 +97,11 @@ section:has(.website-list){
                             <input type="text" value="2022.08.14" readonly style="width: 100%;">
                         </label>
                     </div>
-                </a>
+                    <div style="display: flex; flex-basis: 100%; gap: 4px; justify-content: end; margin-top: 10pxs;">
+                        <a class="btn-style:small" href="">프로필 사진 변경</a>
+                        <a class="btn-style:small" href="">프로필 변경</a>
+                        <button class="btn-style:small">로그아웃</button>
+                    </div>
             </section>
         </header>
         <!-- <ul class="text-overflow"
@@ -160,61 +128,43 @@ section:has(.website-list){
             <nav class="website-list" style="">
                 <h1>웹사이트 목록</h1>
                 <div class="website-card">
-                    <a href="../detail.html" style="display: flex; height: 100%; justify-content: space-between;">
+                    <a href="detail.html">
                         <img class="website-img" src="../../src/img/website/dcep12_pc.png" alt="웹사이트 이미지">
-                        <ul class="item-list"
-                                style="
-                        padding: 10px;
-                        display: flex;
-                        gap: 2px;
-                        flex-direction: column;">
-                            <li style="display: flex; position: relative;">
-                                <span
-                                      class="text-overflow"
-                                      style="
-                                        max-width: 200px;
-                                        font-size: var(--font-size-3);
-                                        font-weight: var(--font-weight-6)">네이버</span>
-                                <span class="icon:more-small text-hidden"
+                    </a>
+                        <ul class=""
+                                style="display: flex; flex-basis: 100%; gap: 2px; flex-direction: column; padding: 5px; ">
+                            <li style="display: flex; justify-content: space-between; position: relative;">
+                                <span class="text-overflow" style="font-size: var(--font-size-3); font-weight: var(--font-weight-6)">네이버</span>
+                                <span class="icon:more text-hidden"
                                       style="position: absolute; top: 0; right: 0;">더보기</span>
                             </li>
                             <li>
                                 <span style="
-                                font-size: var(--font-size-1);
+                                font-size: var(--font-size-2);
                                 color: var(--base-color-3);">이름</span>
                             </li>
                         </ul>
-                    </a>
                 </div>
             </nav>
             <nav class="website-list" style="">
                 <h1>웹사이트 목록</h1>
                 <div class="website-card">
-                    <a href="../detail.html" style="display: flex; height: 100%; justify-content: space-between;">
-                        <img class="website-img" src="../../src/img/website/google.png" alt="웹사이트 이미지">
-                        <ul class="item-list"
-                                style="
-                        padding: 10px;
-                        display: flex;
-                        gap: 2px;
-                        flex-direction: column;">
-                            <li style="display: flex; position: relative;">
-                                <span
-                                      class="text-overflow"
-                                      style="
-                                        max-width: 200px;
-                                        font-size: var(--font-size-3);
-                                        font-weight: var(--font-weight-6)">네이버</span>
-                                <span class="icon:more-small text-hidden"
+                    <a href="detail.html">
+                        <img class="website-img" src="../../src/img/website/dcep12_pc.png" alt="웹사이트 이미지">
+                    </a>
+                        <ul class=""
+                                style="display: flex; flex-basis: 100%; gap: 2px; flex-direction: column; padding: 5px; ">
+                            <li style="display: flex; justify-content: space-between; position: relative;">
+                                <span class="text-overflow" style="font-size: var(--font-size-3); font-weight: var(--font-weight-6)">네이버</span>
+                                <span class="icon:more text-hidden"
                                       style="position: absolute; top: 0; right: 0;">더보기</span>
                             </li>
                             <li>
                                 <span style="
-                                font-size: var(--font-size-1);
+                                font-size: var(--font-size-2);
                                 color: var(--base-color-3);">이름</span>
                             </li>
                         </ul>
-                    </a>
                 </div>
             </nav>
             <!-- 좋아요 표시한 웹사이트-->
@@ -225,61 +175,43 @@ section:has(.website-list){
             <nav class="website-list" style="">
                 <h1>웹사이트 목록</h1>
                 <div class="website-card">
-                    <a href="../detail.html" style="display: flex; height: 100%; justify-content: space-between;">
+                    <a href="detail.html">
                         <img class="website-img" src="../../src/img/website/dcep12_pc.png" alt="웹사이트 이미지">
-                        <ul class="item-list"
-                                style="
-                        padding: 10px;
-                        display: flex;
-                        gap: 2px;
-                        flex-direction: column;">
-                            <li style="display: flex; position: relative;">
-                                <span
-                                    class="text-overflow"
-                                    style="
-                                        max-width: 200px;
-                                        font-size: var(--font-size-3);
-                                        font-weight: var(--font-weight-6)">네이버</span>
-                                <span class="icon:more-small text-hidden"
-                                    style="position: absolute; top: 0; right: 0;">더보기</span>
+                    </a>
+                        <ul class=""
+                                style="display: flex; flex-basis: 100%; gap: 2px; flex-direction: column; padding: 5px; ">
+                            <li style="display: flex; justify-content: space-between; position: relative;">
+                                <span class="text-overflow" style="font-size: var(--font-size-3); font-weight: var(--font-weight-6)">네이버</span>
+                                <span class="icon:more text-hidden"
+                                      style="position: absolute; top: 0; right: 0;">더보기</span>
                             </li>
                             <li>
                                 <span style="
-                                font-size: var(--font-size-1);
+                                font-size: var(--font-size-2);
                                 color: var(--base-color-3);">이름</span>
                             </li>
                         </ul>
-                    </a>
                 </div>
             </nav>
             <nav class="website-list" style="">
                 <h1>웹사이트 목록</h1>
                 <div class="website-card">
-                    <a href="../detail.html" style="display: flex; height: 100%; justify-content: space-between;">
-                        <img class="website-img" src="../../src/img/website/google.png" alt="웹사이트 이미지">
-                        <ul class="item-list"
-                                style="
-                        padding: 10px;
-                        display: flex;
-                        gap: 2px;
-                        flex-direction: column;">
-                            <li style="display: flex; position: relative;">
-                                <span
-                                    class="text-overflow"
-                                    style="
-                                        max-width: 200px;
-                                        font-size: var(--font-size-3);
-                                        font-weight: var(--font-weight-6)">네이버</span>
-                                <span class="icon:more-small text-hidden"
-                                    style="position: absolute; top: 0; right: 0;">더보기</span>
+                    <a href="detail.html">
+                        <img class="website-img" src="../../src/img/website/dcep12_pc.png" alt="웹사이트 이미지">
+                    </a>
+                        <ul class=""
+                                style="display: flex; flex-basis: 100%; gap: 2px; flex-direction: column; padding: 5px; ">
+                            <li style="display: flex; justify-content: space-between; position: relative;">
+                                <span class="text-overflow" style="font-size: var(--font-size-3); font-weight: var(--font-weight-6)">네이버</span>
+                                <span class="icon:more text-hidden"
+                                      style="position: absolute; top: 0; right: 0;">더보기</span>
                             </li>
                             <li>
                                 <span style="
-                                font-size: var(--font-size-1);
+                                font-size: var(--font-size-2);
                                 color: var(--base-color-3);">이름</span>
                             </li>
                         </ul>
-                    </a>
                 </div>
             </nav>
         </section>

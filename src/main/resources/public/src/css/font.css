@@ -12,6 +12,15 @@ body{
     /*font-style: normal;*/
 }
 
+.font-size-small{
+    font-size: var(--font-size-3);
+    font-weight: var(--font-weight-6)
+}
+.font-size-default{
+    font-size: var(--font-size-3);
+    font-weight: var(--font-weight-6)
+}
+
 .text-hidden{
     display: flex;
     text-indent: -999px;

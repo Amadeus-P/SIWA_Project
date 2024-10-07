@@ -29,6 +29,9 @@
 .icon\:close::before{
     mask-image: url("../img/icon/close.svg");
 }
+.icon\:more::before{
+    mask-image: url("../img/icon/more_vert.svg");
+}
 .icon\:more-small::before{
     mask-image: url("../img/icon/more_vert.svg");
 }
@@ -69,6 +72,7 @@
         .icon\:close,
         .icon\:menu,
         .icon\:settings,
+        .icon\:more,
         .icon\:more-small,
         .icon\:more-big,
         .icon\:arrow-back,
@@ -87,7 +91,7 @@
 
     mask-repeat: no-repeat;
     mask-size: var(--icon-width-3) var(--icon-height-3);
-    background-color: var(--base-color-1);
+    background-color: var(--base-color-black);
 }
 
 /* 작은 아이콘 공통 스타일 */
