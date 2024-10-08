@@ -1,68 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-    <link rel="stylesheet" href="../src/css/reset.css">
-    <link rel="stylesheet" href="../src/css/root.css">
-    <link rel="stylesheet" href="../src/css/font.css">
-
-    <link rel="stylesheet" href="../src/css/inc/header.css">
-    <link rel="stylesheet" href="../src/css/inc/footer.css">
-
-    <link rel="stylesheet" href="../src/css/cards.css">
-    <link rel="stylesheet" href="../src/css/form.css">
-    <link rel="stylesheet" href="../src/css/my-icon.css">
-    <link rel="stylesheet" href="../src/css/icon.css">
-    <link rel="stylesheet" href="../src/css/button.css">
-
-    <style>
-        /*
-            %는 상위 태그의 크기를 기준으로 한다.
-            html 0 > body 0 > header
-            %대신 나온 viewport > 현재 보고 있는 화면크키(문서크기와 다르다)
-        */
-
-        /*min 320 <480 (720) 768 (900) 1024> max 1200*/
-        @media screen and (width <= 768px){
-            .website-card   {
-                width: calc(100%);
-            }
-        }
-        @media screen and (768px < width){
-            .website-card{
-                width: calc(50%);
-            }
-        }
-
-    </style>
-    <script defer>
-        const slideMenuOpen = document.getElementsByClassName('.burger-menu');
-        const slideMenuClose = document.getElementsByClassName('burger-menu');
-        const slideMenu = document.getElementsByClassName('.slide-menu');
-
-        slideMenuOpen.addEventListener('click', () => {
-            slideMenu.classList.add('on');
-        });
-
-        slideMenuClose.addEventListener('click', () => {
-            slideMenu.classList.remove('on');
-        });
-    </script>
-    <title></title>
-</head>
-<body>
-<!-- 효율적인 개발을 위해 header, footer를 layout에 옮김(index는 예외) -->
+<template>
     <header class="header">
         <h1>상단 메뉴</h1>
         <section class="" style="margin: 10px;
             display: flex;
             align-items: center;
             justify-content: space-between; flex-basis: 100%;">
-            <a href="index.html">
+            <a href="index">
                 <h1 class="text-hidden" style="display: flex; flex-shrink: 0;">
-                    <img style="width: 60px; " src="../src/img/logo/watercolor-4116932_1280.png" alt="로고">
+                    <img style="width: 60px; " src="/img/logo/watercolor-4116932_1280.png" alt="로고">
                 </h1>
             </a>
             <nav>
@@ -70,10 +15,10 @@
                 <ul style="
                         display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
                     <li>
-                        <a class="btn-sign" href="sign-in.html">로그인</a>
+                        <a class="btn-sign" href="sign-in">로그인</a>
                     </li>
                     <li>
-                        <a class="btn-sign" href="sign-up.html">회원가입</a>
+                        <a class="btn-sign" href="sign-up">회원가입</a>
                     </li>
                     <!-- <li>
                         <a href="" class="icon:notification text-hidden">알람</a>
@@ -107,7 +52,7 @@
             <div style="display: flex;
                     padding: 5px 10px; width: 100%;
                     border: 1px solid var(--main-color-1); border-radius: var(--border-radius-px-3)">
-                <a href="search.html" class="icon:search text-hidden" style="width: 100%;">
+                <a href="search" class="icon:search text-hidden" style="width: 100%;">
                     <span class="">검색</span>
                 </a>
             </div>
@@ -119,7 +64,7 @@
                 flex-wrap: nowrap;
                 justify-content: start;">
                 <li style="display: flex; justify-content: center; flex-basis: 50%; flex-shrink: 1; flex-grow: 1;">
-                    <a href="index.html" style="
+                    <a href="index" style="
                             height: 24px;
                             border-bottom: 2px solid var(--main-color-1);
                             display: flex;
@@ -130,7 +75,7 @@
                         ">인기순</a>
                 </li>
                 <li style="display: flex; justify-content: center; flex-basis: 50%; flex-shrink: 1; flex-grow: 1;">
-                    <a href="index.html" style="
+                    <a href="index" style="
                             height: 24px;
 
                             display: flex;
@@ -140,7 +85,7 @@
                         ">회원</a>
                 </li>
                 <li style="display: flex; justify-content: center; flex-basis: 50%; flex-shrink: 1; flex-grow: 1;">
-                    <a href="index.html" style="
+                    <a href="index" style="
                             height: 24px;
 
                             display: flex;
@@ -153,7 +98,7 @@
         </nav>
     </header>
 
-    <main>
+     <main>
         <header class="main-header" style="margin: 150px 0 50px;">
         </header>
 
@@ -181,8 +126,8 @@
             <nav class="website-list">
                 <h1>웹사이트 목록</h1>
                 <div class="website-card">
-                    <a href="detail.html">
-                        <img class="website-img" src="../src/img/website/rland.png" alt="웹사이트 이미지">
+                    <a href="detail">
+                        <img class="website-img" src="/img/website/rland.png" alt="웹사이트 이미지">
                     </a>
                         <ul class=""
                                 style="display: flex; flex-basis: 100%; gap: 2px; flex-direction: column; padding: 5px; ">
@@ -218,8 +163,8 @@
                         </ul>
                 </div>
                 <div class="website-card">
-                    <a href="detail.html">
-                        <img class="website-img" src="../src/img/website/dcep12_pc.png" alt="웹사이트 이미지">
+                    <a href="detail">
+                        <img class="website-img" src="/img/website/dcep12_pc.png" alt="웹사이트 이미지">
                     </a>
                         <ul class=""
                                 style="display: flex; flex-basis: 100%; gap: 2px; flex-direction: column; padding: 5px; ">
@@ -255,8 +200,8 @@
                         </ul>
                 </div>
                 <div class="website-card">
-                    <a href="detail.html">
-                        <img class="website-img" src="../src/img/website/floral-background-6622475_1280.png" alt="웹사이트 이미지">
+                    <a href="detail">
+                        <img class="website-img" src="/img/website/floral-background-6622475_1280.png" alt="웹사이트 이미지">
                     </a>
                         <ul class=""
                                 style="display: flex; flex-basis: 100%; gap: 2px; flex-direction: column; padding: 5px; ">
@@ -292,7 +237,7 @@
                         </ul>
                 </div>
             </nav>
-        </section>
+          </section>
         <footer class="main-footer" style="margin-bottom: 60px;">
 <!--            무한 스크롤 api 호출 하단-->
         </footer>
@@ -303,22 +248,48 @@
             <h1>하단메뉴</h1>
             <ul class="footer-menu">
                 <li>
-                    <a href="index.html" class="icon:home icon:text-bottom icon:font-1">
+                    <a href="index" class="icon:home icon:text-bottom icon:font-1">
                         <span class="text">홈</span>
                     </a>
                 </li>
                 <li>
-                    <a href="reg.html" class="icon:add icon:text-bottom icon:font-1" >
+                    <a href="reg" class="icon:add icon:text-bottom icon:font-1" >
                         <span class="">사이트 등록</span>
                     </a>
                 </li>
                 <li>
-                    <a href="mypage/index.html" class="icon:profile icon:text-bottom icon:font-1">
+                    <a href="mypage/index" class="icon:profile icon:text-bottom icon:font-1">
                         <span>내 페이지</span>
                     </a>
                 </li>
             </ul>
         </nav>
     </footer>
-</body>
-</html>
+</template>
+
+<script defer>
+// const slideMenuOpen = document.getElementsByClassName('.burger-menu');
+// const slideMenuClose = document.getElementsByClassName('burger-menu');
+// const slideMenu = document.getElementsByClassName('.slide-menu');
+
+// slideMenuOpen.addEventListener('click', () => {
+//     slideMenu.classList.add('on');
+// });
+
+// slideMenuClose.addEventListener('click', () => {
+//     slideMenu.classList.remove('on');
+// });
+</script>
+
+<style>
+    @media screen and (width <= 768px){
+        .website-card   {
+            width: calc(100%);
+        }
+    }
+    @media screen and (768px < width){
+        .website-card{
+            width: calc(50%);
+        }
+    }
+</style>

@@ -24,8 +24,8 @@ body{
 .text-hidden{
     display: flex;
     text-indent: -999px;
-    white-space: nowrap;
-    overflow: hidden;
+    white-space: nowrap; /* !important; */
+    overflow: hidden; /* !important; */
 }
 .text-overflow{
     white-space: nowrap; /* !important; */

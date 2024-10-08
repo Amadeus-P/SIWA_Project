@@ -19,9 +19,25 @@
     <link rel="stylesheet" href="../src/css/my-icon.css">
 </head>
 <body>
-    <h1>회원가입</h1>
+    <header>
+        <h1>회원가입 페이지</h1>
+        <section style="
+                  margin: 20px 10px;
+                  display: flex; justify-content: space-between;">
+          <h1>상단 메뉴</h1>
+          <button class="icon:arrow-back text-hidden btn">뒤로가기</button>
+          <ul class="icon:more-big">
+            <li>
+              <a class="btn-style:default" href="share.html">공유</a>
+            </li>
+            <li>
+              <a class="btn-style:default" href="report.html">신고</a>
+            </li>
+          </ul>
+        </section>
+      </header>
     <main>
-        <h1>회원입력정보</h1>
+        <h1>회원 입력 정보</h1>
         <section>
             <form id="" action="">
                 <fieldset>
@@ -45,7 +61,7 @@
                         <strong><span style="color: var(--accent-color-1);" aria-label="필수입력">*</span></strong>
                         <input id="password" type="password">
                     </label>
-                    <input type="checkbox">사람입니다.</div>
+                    <input type="checkbox"/>사람입니다.
                     <button>가입하기</button>
                 </fieldset>
             </form>

@@ -1,64 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Title</title>
-
-    <link rel="stylesheet" href="../src/css/reset.css">
-    <link rel="stylesheet" href="../src/css/root.css">
-    <link rel="stylesheet" href="../src/css/font.css">
-
-    <link rel="stylesheet" href="../src/css/inc/header.css">
-    <link rel="stylesheet" href="../src/css/inc/footer.css">
-    <link rel="stylesheet" href="../src/css/cards.css">
-    <link rel="stylesheet" href="../src/css/icon.css">
-    <link rel="stylesheet" href="../src/css/form.css">
-    <link rel="stylesheet" href="../src/css/button.css">
-
-
-    <style>
-        ul.auto-complete>li{
-            margin-bottom: 10px;
-
-            font-size: var(--font-size-2);
-            font-weight: var(--font-weight-6);
-        }
-
-        ul.top-searched {
-            display: flex;
-            flex-wrap: wrap;
-
-            font-size: var(--font-size-2);
-            font-weight: var(--font-weight-4);
-        }
-
-        ul.top-searched>li {
-            width: 48%;  /* 각 항목이 50% 대신 약간 여유를 두고 절반을 차지 */
-            margin-bottom: 10px; /* 각 줄 사이 간격 */
-            display: flex;
-        }
-        ul.top-searched>li>span.search-ranking{
-            /* 검색 순위 */
-            display: flex;
-            width: 20px;
-            margin-right: 5px;
-        }
-
-        /* 왼쪽 열: 홀수 항목 */
-        ul.top-searched>li:nth-child(odd) {
-            justify-content: flex-start;
-        }
-
-        /* 오른쪽 열: 짝수 항목 */
-        ul.top-searched>li:nth-child(even) {
-            justify-content: flex-start;
-        }
-
-
-    </style>
-</head>
-<body>
+<template>
     <header>
         <h1>검색 페이지</h1>
         <section style="
@@ -68,14 +8,15 @@
           <button class="icon:arrow-back text-hidden btn">뒤로가기</button>
           <ul class="icon:more-big">
             <li>
-              <a class="btn-style:default" href="share.html">공유</a>
+              <a class="btn-style:default" href="share">공유</a>
             </li>
             <li>
-              <a class="btn-style:default" href="report.html">신고</a>
+              <a class="btn-style:default" href="report">신고</a>
             </li>
           </ul>
         </section>
       </header>
+
     <main>
         <form action="" method="post" role="search">
             <label class="label-card" style="position: relative; border-color: var(--main-color-1)">
@@ -157,6 +98,45 @@
             </ul>
         </section>
     </main>
+</template>
 
-</body>
-</html>
+<style>
+        ul.auto-complete>li{
+            margin-bottom: 10px;
+
+            font-size: var(--font-size-2);
+            font-weight: var(--font-weight-6);
+        }
+
+        ul.top-searched {
+            display: flex;
+            flex-wrap: wrap;
+
+            font-size: var(--font-size-2);
+            font-weight: var(--font-weight-4);
+        }
+
+        ul.top-searched>li {
+            width: 48%;  /* 각 항목이 50% 대신 약간 여유를 두고 절반을 차지 */
+            margin-bottom: 10px; /* 각 줄 사이 간격 */
+            display: flex;
+        }
+        ul.top-searched>li>span.search-ranking{
+            /* 검색 순위 */
+            display: flex;
+            width: 20px;
+            margin-right: 5px;
+        }
+
+        /* 왼쪽 열: 홀수 항목 */
+        ul.top-searched>li:nth-child(odd) {
+            justify-content: flex-start;
+        }
+
+        /* 오른쪽 열: 짝수 항목 */
+        ul.top-searched>li:nth-child(even) {
+            justify-content: flex-start;
+        }
+
+
+    </style>

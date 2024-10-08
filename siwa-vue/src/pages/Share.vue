@@ -1,30 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>신고</title>
-
-    <link rel="stylesheet" href="../src/css/reset.css">
-    <link rel="stylesheet" href="../src/css/root.css">
-    <link rel="stylesheet" href="../src/css/font.css">
-
-    <link rel="stylesheet" href="../src/css/inc/header.css">
-    <link rel="stylesheet" href="../src/css/inc/footer.css">
-    <link rel="stylesheet" href="../src/css/cards.css">
-    <link rel="stylesheet" href="../src/css/icon.css">
-    <link rel="stylesheet" href="../src/css/form.css">
-    <link rel="stylesheet" href="../src/css/button.css">
-
-    <style>
-        .icon\:close::before{
-            width: var(--icon-width-3);
-            height: var(--icon-height-3);
-            mask-size: var(--icon-width-3) var(--icon-height-3);
-        }
-    </style>
-</head>
-<body>
+<template>
     <header>
         <h1>공유페이지</h1>
         <section style="
@@ -42,7 +16,6 @@
           </ul>
         </section>
       </header>
-
     <main>
         <section class="box-shadow" style="position: relative; display: flex; justify-content: center; margin: 10px; padding: 10px;">
             <h1>공유</h1>
@@ -56,6 +29,12 @@
             </div>
         </section>
     </main>
+</template>
 
-</body>
-</html>
+<style>
+.icon\:close::before{
+    width: var(--icon-width-3);
+    height: var(--icon-height-3);
+    mask-size: var(--icon-width-3) var(--icon-height-3);
+}
+</style>

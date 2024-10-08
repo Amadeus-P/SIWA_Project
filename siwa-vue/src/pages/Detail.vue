@@ -1,44 +1,10 @@
-<!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/member/inc/layout}">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-    <link rel="stylesheet" href="../src/css/reset.css">
-    <link rel="stylesheet" href="../src/css/root.css">
-    <link rel="stylesheet" href="../src/css/font.css">
-
-    <link rel="stylesheet" href="../src/css/inc/header.css">
-    <link rel="stylesheet" href="../src/css/inc/footer.css">
-    <link rel="stylesheet" href="../src/css/cards.css">
-    <link rel="stylesheet" href="../src/css/form.css">
-    <link rel="stylesheet" href="../src/css/icon.css">
-    <link rel="stylesheet" href="../src/css/button.css">
-    <link rel="stylesheet" href="../src/css/my-icon.css">
-
-    <style>
-        .comment-box {
-            font-size: 12px;
-        }
-        .profile-img {
-            --icon-width-4: 32px;
-            --icon-height-4: 32px;
-            width: var(--icon-width-4); height: var(--icon-height-4);
-        }
-
-    </style>
-</head>
-<body>
-    <header>
+<template>
+<header>
         <h1>상세 페이지</h1>
         <section style="
                   margin: 20px 10px;
                   display: flex; justify-content: space-between;">
-          <h1>상단 메뉴</h1>
+          <h1>상세 페이지 상단 메뉴</h1>
           <button class="icon:arrow-back text-hidden btn">뒤로가기</button>
           <ul class="icon:more-big">
             <li>
@@ -60,10 +26,10 @@
             ">
                 <li style="flex-shrink: 0;"><img style="width: 100vw; height: auto; aspect-ratio: 16/9;
                     object-fit: cover;"
-                                                 src="../src/img/website/rland.png" alt="스크린샷"></li>
+                                                 src="/img/website/rland.png" alt="스크린샷"></li>
                 <li style="flex-shrink: 0;"><img style="width: 100vw; height: auto; aspect-ratio: 16/9;
                     object-fit: cover;
-                                " src="../src/img/website/rland.png" alt="스크린샷"></li>
+                                " src="/img/website/rland.png" alt="스크린샷"></li>
             </ul>
         </nav>
         <section style="
@@ -97,7 +63,7 @@
                     </span>
                 </li>
                 <li style="display: flex; align-items: center;">
-                    <img class="profile-img" src="../src/img/member/ico_ep2_01.png" alt="프로필사진">
+                    <img class="profile-img" src="/img/member/ico_ep2_01.png" alt="프로필사진">
                     <span style="margin-right: auto;">회원명</span>
                     <a class="btn-submit:default" href="">방문하기</a>
                 </li>
@@ -127,7 +93,7 @@
             display:flex;">
             <h1>등록한 댓글</h1>
             <div style="display:flex; height: 100px;">
-                <img  class="profile-img" src="../src/img/member/ico_ep2_01.png" alt="프로필사진">
+                <img  class="profile-img" src="/img/member/ico_ep2_01.png" alt="프로필사진">
             </div>
             <div style="display: flex; flex-wrap: wrap; flex-basis: 100%; align-items: center;">
                                         <span style="
@@ -188,7 +154,7 @@
             display:flex;">
                 <h1>수정할 댓글</h1>
                 <div style="display:flex; height: 100px;">
-                    <img  class="profile-img" src="../src/img/member/ico_ep2_01.png" alt="프로필사진">
+                    <img  class="profile-img" src="/img/member/ico_ep2_01.png" alt="프로필사진">
                 </div>
                 <div style="display: flex; flex-wrap: wrap; flex-basis: 100%; align-items: center;">
                                         <span style="
@@ -225,7 +191,7 @@
             display:flex;">
             <h1>희원이 등록한 댓글</h1>
             <div style="display:flex; height: 100px;">
-                <img  class="profile-img" src="../src/img/member/ico_ep2_01.png" alt="프로필사진">
+                <img  class="profile-img" src="/img/member/ico_ep2_01.png" alt="프로필사진">
             </div>
             <div style="display: flex; flex-wrap: wrap; flex-basis: 100%; align-items: center;">
                                         <span style="
@@ -287,7 +253,7 @@
             display:flex;">
                 <h1>수정할 댓글</h1>
                 <div style="display:flex; height: 100px;">
-                    <img  class="profile-img" src="../src/img/member/ico_ep2_01.png" alt="프로필사진">
+                    <img  class="profile-img" src="/img/member/ico_ep2_01.png" alt="프로필사진">
                 </div>
                 <div style="display: flex; flex-wrap: wrap; flex-basis: 100%; align-items: center;">
                                         <span style="
@@ -320,6 +286,15 @@
             </section>
         </form>
     </main>
+</template>
 
-</body>
-</html>
+<style>
+  .comment-box {
+            font-size: 12px;
+        }
+        .profile-img {
+            --icon-width-4: 32px;
+            --icon-height-4: 32px;
+            width: var(--icon-width-4); height: var(--icon-height-4);
+        }
+</style>
