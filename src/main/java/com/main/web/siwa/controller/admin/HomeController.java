@@ -1,7 +1,7 @@
 package com.main.web.siwa.controller.admin;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller("adminController")
+@RestController("adminController")
 public class HomeController {
 }

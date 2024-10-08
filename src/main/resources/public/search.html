@@ -59,7 +59,23 @@
     </style>
 </head>
 <body>
-    <h1>검색 페이지</h1>
+    <header>
+        <h1>검색 페이지</h1>
+        <section style="
+                      margin: 20px 10px;
+                      display: flex; justify-content: space-between;">
+            <h1>상단 메뉴</h1>
+            <button class="icon:arrow-back text-hidden btn">뒤로가기</button>
+            <ul class="icon:more-big">
+                <li>
+                    <a class="btn-style:default" href="share.html">공유</a>
+                </li>
+                <li>
+                    <a class="btn-style:default" href="report.html">신고</a>
+                </li>
+            </ul>
+        </section>
+    </header>
     <main>
         <form action="" method="post" role="search">
             <label class="label-card" style="position: relative; border-color: var(--main-color-1)">
@@ -67,9 +83,9 @@
                        style="margin-left: 40px;">
             </label>
             <span class="icon:search text-hidden" style="position: absolute; left: 20px;"></span>
-            <a href="index.html" class="btn" style="margin-right: 10px;">
-                <span class="btn-style:default">뒤로</span>
-            </a>
+            <button type="reset" class="btn" style="margin-right: 10px;">
+                <span class="btn-style:default">취소</span>
+            </button>
         </form>
         <section style="margin: 10px;">
             <h1>자동완성기능</h1>

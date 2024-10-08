@@ -1,10 +1,10 @@
 package com.main.web.siwa.controller.member;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller("memberController")
+@RestController("memberController")
 @RequestMapping("member")
 public class HomeController {
 

@@ -1,17 +1,27 @@
 package com.main.web.siwa.controller;
 
 
-import org.springframework.stereotype.Controller;
+import com.main.web.siwa.entity.Website;
+import com.main.web.siwa.service.HomeService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller("controller")
+import java.util.List;
+
+@RestController("controller")
 @RequestMapping("/")
 public class HomeController {
 
+    private HomeService homeService;
+
+    public HomeController(HomeService homeService){
+        this.homeService = homeService;
+    }
+
     @GetMapping("index")
-    public String index() {
-        return "index";
+    public List<Website> index() {
+        return homeService.getList();
     }
     @GetMapping("detail")
     public String detail() {
