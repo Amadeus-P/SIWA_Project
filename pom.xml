@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.main.web</groupId>
-    <artifactId>SIWA_Project2</artifactId>
+    <artifactId>SIWA_Project</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>SIWA_Project</name>
     <description>SIWA_Project</description>

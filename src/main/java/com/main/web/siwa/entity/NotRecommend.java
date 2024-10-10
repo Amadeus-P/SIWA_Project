@@ -11,19 +11,16 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-
 @Entity
-public class Website {
-
+public class NotRecommend {
     @Id
     private Long id;
-    private String name;
-    private String url;
+    private Long websiteId;
+    private Long memberId;
+    private Long count;
+    private Boolean isNotRecommend;
     private LocalDateTime regDate;
-    private Long categoryId;
-    private Long imgId;
-
 }

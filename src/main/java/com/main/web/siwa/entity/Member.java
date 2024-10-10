@@ -1,6 +1,5 @@
 package com.main.web.siwa.entity;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -16,14 +15,13 @@ import java.time.LocalDateTime;
 @Builder
 
 @Entity
-public class Website {
-
+public class Member {
     @Id
     private Long id;
-    private String name;
-    private String url;
+    private String profile_img;
+    private String profile_name;
+    private String email;
+    private String password;
     private LocalDateTime regDate;
-    private Long categoryId;
-    private Long imgId;
 
 }

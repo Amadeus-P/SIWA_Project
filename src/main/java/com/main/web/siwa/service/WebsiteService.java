@@ -4,6 +4,6 @@ import com.main.web.siwa.entity.Website;
 
 import java.util.List;
 
-public interface HomeService {
+public interface WebsiteService {
     List<Website> getList();
 }

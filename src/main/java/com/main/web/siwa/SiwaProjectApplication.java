@@ -4,9 +4,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
-//@SpringBootApplication
-// 프로젝트 생성후  최초 실행시 DB 연결이 안되어 있으면 DB 연결 없이 실행하기 
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+@SpringBootApplication
+
+// DB 연결 없이 실행하게 하는 설정
+// 이거 있으면 JPA의 구현체로 Repo를 Bean객체로 등록 못함
+//@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 
 public class SiwaProjectApplication {
 
