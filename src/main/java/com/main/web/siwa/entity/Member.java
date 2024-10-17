@@ -1,27 +1,39 @@
 package com.main.web.siwa.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.util.List;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-
+@Getter
+@Setter
 @Entity
+@Table(name = "member")
 public class Member {
     @Id
+    @Column(name = "id", nullable = false)
     private Long id;
-    private String profile_img;
-    private String profile_name;
+
+    @ColumnDefault("current_timestamp()")
+    @Column(name = "reg_date")
+    private Instant regDate;
+
+    @Column(name = "email")
     private String email;
+
+    @Column(name = "password")
     private String password;
-    private LocalDateTime regDate;
+
+    @Column(name = "profile_img")
+    private String profileImg;
+
+    @Column(name = "profile_name")
+    private String profileName;
+
+    @OneToMany(mappedBy = "member")
+    private List<Website> websites;
 
 }

@@ -1,26 +1,36 @@
 package com.main.web.siwa.entity;
 
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+@Getter
+@Setter
 @Entity
+@Table(name = "not_recommend")
 public class NotRecommend {
     @Id
+    @Column(name = "id", nullable = false)
     private Long id;
-    private Long websiteId;
-    private Long memberId;
+
+    @Column(name = "is_not_recommended")
+    private Boolean isNotRecommended;
+
+    @Column(name = "count")
     private Long count;
-    private Boolean isNotRecommend;
-    private LocalDateTime regDate;
+
+    @Column(name = "member_id")
+    private Long memberId;
+
+    @Column(name = "reg_date")
+    private Instant regDate;
+
+    @Column(name = "website_id")
+    private Long websiteId;
+
 }

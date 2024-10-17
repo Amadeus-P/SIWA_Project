@@ -12,14 +12,11 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "recommend")
-public class Recommend {
+@Table(name = "website_visit")
+public class WebsiteVisit {
     @Id
     @Column(name = "id", nullable = false)
     private Long id;
-
-    @Column(name = "is_recommended")
-    private Boolean isRecommended;
 
     @Column(name = "count")
     private Long count;
@@ -27,8 +24,8 @@ public class Recommend {
     @Column(name = "member_id")
     private Long memberId;
 
-    @Column(name = "reg_date")
-    private Instant regDate;
+    @Column(name = "time")
+    private Instant time;
 
     @Column(name = "website_id")
     private Long websiteId;
