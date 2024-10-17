@@ -1,4 +1,36 @@
-/* 아이콘 소스 위치 */
+/* 작은 아이콘에 대한 이미지 경로 추가 */
+.icon\:category-small::before{
+    mask-image: url("../img/icon/tag.svg"); 
+}
+.icon\:like-small::before{
+    mask-image: url("../img/icon/like.svg");
+}
+.icon\:views-small::before{
+    mask-image: url("../img/icon/views.svg");
+}
+.icon\:close-small::before{
+    mask-image: url("../img/icon/close.svg");
+}
+.icon\:more-small::before{
+    mask-image: url("../img/icon/more_vert.svg");
+}
+.icon\:recommended-small::before{
+    mask-image: url("../img/icon/thumb_up.svg");
+}
+.icon\:dislike-small::before{
+    mask-image: url("../img/icon/thumb_down.svg"); 
+}
+.icon\:comment-small::before{
+    mask-image: url("../img/icon/comment.svg");
+}
+.icon\:arrow-down-small::before{
+    mask-image: url("../img/icon/arrow_down.svg"); 
+}
+.icon\:copy-small::before{
+    mask-image: url("../img/icon/copy.svg");
+}
+
+/* 아이콘 경로 */
 .icon\:search::before{
     mask-image: url("../img/icon/search.svg");
 }
@@ -73,8 +105,6 @@
         .icon\:menu,
         .icon\:settings,
         .icon\:more,
-        .icon\:more-small,
-        .icon\:more-big,
         .icon\:arrow-back,
         .icon\:recommended,
         .icon\:dislike,
@@ -96,30 +126,41 @@
 
 /* 작은 아이콘 공통 스타일 */
 :is(
-        .icon\:category,
-        .icon\:like,
-        .icon\:views,
-        .icon\:close,
+        .icon\:category-small,
+        .icon\:like-small,
+        .icon\:views-small,
+        .icon\:close-small,
         .icon\:more-small,
-        .icon\:recommended,
-        .icon\:dislike,
-        .icon\:comment,
-        .icon\:arrow-down,
-        .icon\:copy
+        .icon\:recommended-small,
+        .icon\:dislike-small,
+        .icon\:comment-small,
+        .icon\:arrow-down-small,
+        .icon\:copy-small
         )::before{
-    width: var(--icon-width-2);
-    height: var(--icon-height-2);
-    mask-size: var(--icon-width-2) var(--icon-height-2);
+            
+            content: "";
+            display: flex;
+            width: var(--icon-width-2);
+            height: var(--icon-height-2);
+            mask-repeat: no-repeat;
+
+            mask-size: var(--icon-width-2) var(--icon-height-2);
+            background-color: var(--base-color-black);
 }
 
 /* 큰 아이콘 공통 스타일 */
 :is(
-    .icon\:arrow-back,
+    .icon\:arrow-back-big,
     .icon\:more-big
 )::before{
+    content: "";
+    display: flex;
+    mask-repeat: no-repeat;
+
     width: var(--icon-width-4);
     height: var(--icon-height-4);
     mask-size: var(--icon-width-4) var(--icon-height-4);
+    background-color: var(--base-color-black);
 }
 
 
@@ -145,6 +186,28 @@
 
 /* 아이콘 기능 적용 */
 :is(
+        .icon\:menu-small,
+        .icon\:settings-small,
+        .icon\:arrow-back-small,
+        .icon\:close-small,
+        .icon\:category-small,
+        .icon\:like-small,
+        .icon\:views-small,
+        .icon\:more-small,
+        .icon\:recommended-small,
+        .icon\:dislike-small,
+        .icon\:comment-small,
+        .icon\:arrow-down-small,
+        .icon\:notification-small,
+        .icon\:copy-small
+        ) {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+:is(
         .icon\:menu,
         .icon\:settings,
         .icon\:arrow-back,
@@ -167,6 +230,28 @@
     margin: 0;
     padding: 0;
 }
+:is(
+        .icon\:menu-big,
+        .icon\:settings-big,
+        .icon\:arrow-back-big,
+        .icon\:close-big,
+        .icon\:category-big,
+        .icon\:like-big,
+        .icon\:views-big,
+        .icon\:more-big,
+        .icon\:recommended-big,
+        .icon\:dislike-big,
+        .icon\:comment-big,
+        .icon\:arrow-down-big,
+        .icon\:notification-big,
+        .icon\:copy-big
+        ) {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
 
 /* 아이콘 공통 폰트 크기 */
 .icon\:font-1{
@@ -177,7 +262,18 @@
     font-size:var(--font-size-2);
     text-align: center;
 }
-
+.icon\:font-3{
+    font-size:var(--font-size-3);
+    text-align: center;
+}
+.icon\:font-4{
+    font-size:var(--font-size-4);
+    text-align: center;
+}
+.icon\:font-5{
+    font-size:var(--font-size-5);
+    text-align: center;
+}
 /* 아이콘의 텍스트 위치 */
 .icon\:text-top,
 .icon\:text-bottom{

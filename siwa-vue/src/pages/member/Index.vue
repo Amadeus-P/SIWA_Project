@@ -15,10 +15,7 @@
                 <ul style="
                         display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
                     <li>
-                        <RouterLink class="btn-sign" to="sign-in">로그인</RouterLink>
-                    </li>
-                    <li>
-                        <RouterLink class="btn-sign" to="sign-up">회원가입</RouterLink>
+                        <RouterLink class="btn-sign" to="admin-sign-in">관리자 로그인</RouterLink>
                     </li>
                     <!-- <li>
                         <RouterLink to="" class="icon:notification text-hidden">알람</RouterLink>
@@ -41,10 +38,6 @@
                         <li>슬라이드 메뉴</li>
                     </ul>
                 </div>
-                <!--            <ul style="display: flex;">-->
-                <!--                <li><span>이름</span></li>-->
-                <!--                <li><RouterLink class="btn" style="margin: 4px;" to="../index">로그아웃</RouterLink></li>-->
-                <!--            </ul>-->
             </nav>
         </section>
         <section style="display: flex; justify-content: end; flex-basis: 100%; margin: 0 10px 10px;">
@@ -98,7 +91,7 @@
         </nav>
     </header>
 
-     <main>
+    <main>
         <header class="main-header" style="margin: 150px 0 50px;">
         </header>
 
@@ -110,53 +103,70 @@
                 <ul style="display: flex; justify-content: start; align-items: center; flex-basis: 100%; gap: 10px;
                 margin: 4px 10px; overflow: hidden; text-wrap: nowrap;">
                     <li>
-                        <RouterLink class="btn-style:default" to="">디자인</RouterLink>
+                        <a class="btn-style:default" href="">전체보기</a>
                     </li>
                     <li>
-                        <RouterLink class="btn-style:default" to="">다이어리</RouterLink>
+                        <a class="btn-style:default" href="">디자인</a>
                     </li>
                     <li>
-                        <RouterLink class="btn-style:default" to="">우주</RouterLink>
+                        <a class="btn-style:default" href="">다이어리</a>
                     </li>
                     <li>
-                        <RouterLink to="" style="color: var(--main-color-1)">더 많은 카테고리</RouterLink>
+                        <a class="btn-style:default" href="">우주</a>
+                    </li>
+                    <li>
+                        <a href="" style="color: var(--main-color-1)">더 많은 카테고리</a>
                     </li>
                 </ul>
             </nav>
             <nav class="website-list">
                 <h1>웹사이트 목록</h1>
+                <!--  여기서 json 데이터를 가져와서 반복 -->
+                  <!-- v-for="website in websites" :key="website.id" -->
+                   <!-- v-for="(value, key) in websites" :key="key" -->
                 <div class="website-card">
                     <RouterLink to="detail">
+                        <!-- {{ website.imgId }} -->
+                          <!-- {{  key }}: {{ value -->
                         <img class="website-img" src="/img/website/rland.png" alt="웹사이트 이미지">
                     </RouterLink>
                         <ul class=""
                                 style="display: flex; flex-basis: 100%; gap: 2px; flex-direction: column; padding: 5px; ">
                             <li style="display: flex; justify-content: space-between; position: relative;">
-                                <span class="text-overflow" style="font-size: var(--font-size-3); font-weight: var(--font-weight-6)">네이버</span>
+                                <span class="text-overflow" style="font-size: var(--font-size-4); font-weight: var(--font-weight-6)">네이버</span>
                                 <span class="icon:more text-hidden"
                                       style="position: absolute; top: 0; right: 0;">더보기</span>
                             </li>
                             <li>
                                  <span  class=""
-                                        style="height: 16px; font-size: var(--font-size-2);color: var(--base-color-3);">
+                                        style="height: 16px; font-size: var(--font-size-3); font-weight: var(--font-weight-4);color: var(--base-color-3);">
                                      <span style="">카테고리</span>
                                  </span>
                             </li>
                             <li>
                                 <span style="
-                                font-size: var(--font-size-2);
+                                font-size: var(--font-size-3); font-weight: var(--font-weight-4);
                                 color: var(--base-color-3);">이름</span>
                             </li>
                             <li style="
                             margin-top: auto;
                             display: flex; flex-direction: row; gap: 4px;">
-                                <div class="icon:views icon:font-1" style="width: 50px;">
+                                <div class="" style=" 
+                                 font-size: var(--font-size-3); font-weight: var(--font-weight-4);
+                                color: var(--base-color-1);">
+                                    조회수
                                     <span style="margin-left: 2px;">1천</span>
                                 </div>
-                                <div class="icon:comment icon:font-1" style="width: 50px;">
+                                <div class="" style="
+                                font-size: var(--font-size-3); font-weight: var(--font-weight-4);
+                                color: var(--base-color-1);">
+                                댓글수
                                     <span style="margin-left: 2px;">999+</span>
                                 </div>
-                                <div class="icon:like icon:font-1" style="width: 50px;">
+                                <div class="icon:like icon:font-1" style="
+                                margin-left: auto;
+                                font-size: var(--font-size-3); font-weight: var(--font-weight-4);
+                                color: var(--base-color-1);">
                                     <span style="margin-left: 2px;">10</span>
                                 </div>
                             </li>
@@ -169,31 +179,40 @@
                         <ul class=""
                                 style="display: flex; flex-basis: 100%; gap: 2px; flex-direction: column; padding: 5px; ">
                             <li style="display: flex; justify-content: space-between; position: relative;">
-                                <span class="text-overflow" style="font-size: var(--font-size-3); font-weight: var(--font-weight-6)">네이버</span>
+                                <span class="text-overflow" style="font-size: var(--font-size-4); font-weight: var(--font-weight-6)">네이버</span>
                                 <span class="icon:more text-hidden"
                                       style="position: absolute; top: 0; right: 0;">더보기</span>
                             </li>
                             <li>
                                  <span  class=""
-                                        style="height: 16px; font-size: var(--font-size-2);color: var(--base-color-3);">
+                                        style="height: 16px; font-size: var(--font-size-3); font-weight: var(--font-weight-4);color: var(--base-color-3);">
                                      <span style="">카테고리</span>
                                  </span>
                             </li>
                             <li>
                                 <span style="
-                                font-size: var(--font-size-2);
+                                font-size: var(--font-size-3); font-weight: var(--font-weight-4);
                                 color: var(--base-color-3);">이름</span>
                             </li>
                             <li style="
                             margin-top: auto;
                             display: flex; flex-direction: row; gap: 4px;">
-                                <div class="icon:views icon:font-1" style="width: 50px;">
+                                <div class="" style=" 
+                                 font-size: var(--font-size-3); font-weight: var(--font-weight-4);
+                                color: var(--base-color-1);">
+                                    조회수
                                     <span style="margin-left: 2px;">1천</span>
                                 </div>
-                                <div class="icon:comment icon:font-1" style="width: 50px;">
+                                <div class="" style="
+                                font-size: var(--font-size-3); font-weight: var(--font-weight-4);
+                                color: var(--base-color-1);">
+                                댓글수
                                     <span style="margin-left: 2px;">999+</span>
                                 </div>
-                                <div class="icon:like icon:font-1" style="width: 50px;">
+                                <div class="icon:like icon:font-1" style="
+                                margin-left: auto;
+                                font-size: var(--font-size-3); font-weight: var(--font-weight-4);
+                                color: var(--base-color-1);">
                                     <span style="margin-left: 2px;">10</span>
                                 </div>
                             </li>
@@ -206,38 +225,47 @@
                         <ul class=""
                                 style="display: flex; flex-basis: 100%; gap: 2px; flex-direction: column; padding: 5px; ">
                             <li style="display: flex; justify-content: space-between; position: relative;">
-                                <span class="text-overflow" style="font-size: var(--font-size-3); font-weight: var(--font-weight-6)">네이버</span>
+                                <span class="text-overflow" style="font-size: var(--font-size-4); font-weight: var(--font-weight-6)">네이버</span>
                                 <span class="icon:more text-hidden"
                                       style="position: absolute; top: 0; right: 0;">더보기</span>
                             </li>
                             <li>
                                  <span  class=""
-                                        style="height: 16px; font-size: var(--font-size-2);color: var(--base-color-3);">
+                                        style="height: 16px; font-size: var(--font-size-3); font-weight: var(--font-weight-4);color: var(--base-color-3);">
                                      <span style="">카테고리</span>
                                  </span>
                             </li>
                             <li>
                                 <span style="
-                                font-size: var(--font-size-2);
+                                font-size: var(--font-size-3); font-weight: var(--font-weight-4);
                                 color: var(--base-color-3);">이름</span>
                             </li>
                             <li style="
                             margin-top: auto;
                             display: flex; flex-direction: row; gap: 4px;">
-                                <div class="icon:views icon:font-1" style="width: 50px;">
+                                <div class="" style=" 
+                                 font-size: var(--font-size-3); font-weight: var(--font-weight-4);
+                                color: var(--base-color-1);">
+                                    조회수
                                     <span style="margin-left: 2px;">1천</span>
                                 </div>
-                                <div class="icon:comment icon:font-1" style="width: 50px;">
+                                <div class="" style="
+                                font-size: var(--font-size-3); font-weight: var(--font-weight-4);
+                                color: var(--base-color-1);">
+                                댓글수
                                     <span style="margin-left: 2px;">999+</span>
                                 </div>
-                                <div class="icon:like icon:font-1" style="width: 50px;">
+                                <div class="icon:like icon:font-1" style="
+                                margin-left: auto;
+                                font-size: var(--font-size-3); font-weight: var(--font-weight-4);
+                                color: var(--base-color-1);">
                                     <span style="margin-left: 2px;">10</span>
                                 </div>
                             </li>
                         </ul>
                 </div>
             </nav>
-          </section>
+        </section>
         <footer class="main-footer" style="margin-bottom: 60px;">
 <!--            무한 스크롤 api 호출 하단-->
         </footer>
@@ -258,40 +286,23 @@
                     </RouterLink>
                 </li>
                 <li>
-                    <RouterLink to="mypage/index" class="icon:profile icon:text-bottom icon:font-1">
+                    <a href="mypage/index" class="icon:profile icon:text-bottom icon:font-1">
                         <span>내 페이지</span>
-                    </RouterLink>
+                    </a>
                 </li>
             </ul>
         </nav>
     </footer>
 </template>
-
-<script defer>
-import { RouterLink } from 'vue-router';
-
-// const slideMenuOpen = document.getElementsByClassName('.burger-menu');
-// const slideMenuClose = document.getElementsByClassName('burger-menu');
-// const slideMenu = document.getElementsByClassName('.slide-menu');
-
-// slideMenuOpen.addEventListener('click', () => {
-//     slideMenu.classList.add('on');
-// });
-
-// slideMenuClose.addEventListener('click', () => {
-//     slideMenu.classList.remove('on');
-// });
-</script>
-
 <style>
-    @media screen and (width <= 768px){
-        .website-card   {
-            width: calc(100%);
+        @media screen and (width <= 768px){
+            .website-card   {
+                width: calc(100%);
+            }
         }
-    }
-    @media screen and (768px < width){
-        .website-card{
-            width: calc(50%);
+        @media screen and (768px < width){
+            .website-card{
+                width: calc(50%);
+            }
         }
-    }
 </style>
