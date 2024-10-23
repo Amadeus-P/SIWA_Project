@@ -11,18 +11,20 @@ import lombok.Setter;
 @Table(name = "website_image")
 public class WebsiteImage {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+
+    @Column(name = "src")
+    private String src;
 
     @Column(name = "is_default")
     private Boolean isDefault;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "website_id")
+    // 상위 테이블(부모 테이블)
+    @ManyToOne
     @JsonBackReference
+    @JoinColumn(name = "website_id")
     private Website website;
-
-    @Column(name = "src")
-    private String src;
 
 }

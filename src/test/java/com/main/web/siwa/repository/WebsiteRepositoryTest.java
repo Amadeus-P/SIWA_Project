@@ -1,7 +1,5 @@
 package com.main.web.siwa.repository;
 
-import com.main.web.siwa.dto.WebsiteDto;
-import com.main.web.siwa.entity.Category;
 import com.main.web.siwa.entity.Website;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
-import java.util.Optional;
 
 @DataJpaTest
 class WebsiteRepositoryTest {

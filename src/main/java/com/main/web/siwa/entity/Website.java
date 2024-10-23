@@ -1,5 +1,6 @@
 package com.main.web.siwa.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,12 +19,8 @@ import java.util.List;
 public class Website {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Long id;
-
-    @ColumnDefault("current_timestamp()")
-    @Column(name = "reg_date", insertable = false, updatable = false)
-    private Instant regDate;
 
     @Column(name = "name")
     private String name;
@@ -31,14 +28,23 @@ public class Website {
     @Column(name = "url")
     private String url;
 
-    @OneToMany(mappedBy = "website")
-    private List<Category> categories;
+    @ColumnDefault("current_timestamp()")
+    @Column(name = "reg_date")
+    private Instant regDate;
 
-    @OneToMany(mappedBy = "website")
+    // 상위 테이블(부모 테이블)
     @JsonManagedReference
+    @OneToMany(mappedBy = "website")
     private List<WebsiteImage> images;
 
+    // 하위 테이블(자식 테이블)
     @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "member_id")
     private Member member;
 
