@@ -1,0 +1,129 @@
+.btn{
+    display: flex;
+    align-items: center;
+
+    background-color: var(--base-color-white);
+    border: none;
+    margin: 0;
+    padding: 0;
+
+    font-size: var(--font-size-3); 
+    font-weight: var(--font-weight-4);
+    color: var(--base-color-1);
+
+    /* text-wrap: nowrap; */
+    text-align: center;
+}
+/* 버튼 기본 스타일 */
+:is(
+.btn-style\:round,
+.btn-accent\:round,
+.btn-submit\:round
+,.btn-sign
+){
+    display: flex;
+    align-items: center;
+
+    background-color: var(--base-color-4);
+    border: none;
+    border-radius: var(--border-radius-px-3);
+    margin: 0;
+    padding: 0 16px;
+
+    height: 32px;
+
+
+    font-size: var(--font-size-3); 
+    font-weight: var(--font-weight-4);
+    color: var(--base-color-1);
+    text-wrap: nowrap;
+    text-align: center;
+}
+:is(
+    .btn-style\:square
+    ){
+    display: flex;
+    align-items: center;
+
+    background-color: var(--base-color-4);
+    border: none;
+    border-radius: var(--border-radius-px-1);
+    margin: 0;
+    padding: 0 16px;
+
+    height: 32px;
+
+    font-size: var(--font-size-2); 
+    font-weight: var(--font-weight-4);
+    color: var(--base-color-1);
+    text-wrap: nowrap;
+    text-align: center;
+}
+
+/* 작은 버튼 기본 스타일 */
+:is(
+.btn-style\:small,
+.btn-accent\:small,
+.btn-submit\:small
+){
+    display: flex;
+    align-items: center;
+
+    background-color: var(--base-color-4);
+    border: none;
+    border-radius: var(--border-radius-px-3);
+    margin: 0;
+    padding: 0 16px;
+
+    height: 24px;
+
+    font-size: var(--font-size-3); 
+    font-weight: var(--font-weight-4);
+    color: var(--base-color-1);
+    text-wrap: nowrap;
+    text-align: center;
+
+}
+
+/* 버튼 개별 스타일 */
+:is(
+    .btn-style\:small,
+    .btn-style\:round
+){
+    color: var(--base-color-1);
+}
+/* 삭제버튼 */
+:is(
+    .btn-accent\:small,
+    .btn-accent\:round
+){
+    color: var(--accent-color-1);
+}
+/* 등록 버튼 */
+:is(
+    .btn-submit\:small,
+    .btn-submit\:round
+){
+    background-color: var(--base-color-1);
+    color: var(--base-color-white);
+}
+/* 등록 버튼 상태 */
+:is(
+    .btn-submit\:round,
+    .btn-submit\:small
+):hover{
+    color: var(--main-color-1);
+}
+:is(
+    .btn-submit\:round,
+    .btn-submit\:small
+):active {
+    color: var(--main-color-1);
+    transform: scale(0.98);
+}
+
+/* 로그인 */
+.btn-sign{
+    background-color: var(--main-color-1);
+    color: var(--base-color-white);
+}
