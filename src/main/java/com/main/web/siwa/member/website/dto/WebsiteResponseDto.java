@@ -13,6 +13,11 @@ import java.util.List;
 @Builder
 public class WebsiteResponseDto {
 
-    private long websiteTotalCount;
-    private List<WebsiteDto> websiteDtos;
+
+    private Long websiteTotalCount;
+    private Long websiteTotalPages;
+    private Boolean nextPage;
+    private Boolean prevPage;
+    private List<WebsiteListDto> websiteListDtos;
+    private List<Integer> pages;
 }

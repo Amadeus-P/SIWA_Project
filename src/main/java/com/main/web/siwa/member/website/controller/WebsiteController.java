@@ -1,14 +1,25 @@
 package com.main.web.siwa.member.website.controller;
 
-import com.main.web.siwa.member.website.dto.WebsiteDto;
+import com.main.web.siwa.entity.WebsiteImage;
+import com.main.web.siwa.member.website.dto.WebsiteCreateDto;
+import com.main.web.siwa.member.website.dto.WebsiteListDto;
 import com.main.web.siwa.member.website.dto.WebsiteResponseDto;
+import com.main.web.siwa.member.website.dto.WebsiteSearchDto;
 import com.main.web.siwa.member.website.service.WebsiteService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-@RestController
-@RequestMapping("/websites")
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
+@RestController("memberWebsiteController")
+@RequestMapping("member/websites")
 public class WebsiteController {
 
     private WebsiteService websiteService;
@@ -17,61 +28,59 @@ public class WebsiteController {
         this.websiteService = websiteService;
     }
 
-    // GET
+    // GET + 검색
     @GetMapping
     public ResponseEntity<WebsiteResponseDto> getList(
-            // 페이징 page: 요청 페이지 , size: 한 페이지 당 웹페이지 개수
-            @RequestParam(name = "p", defaultValue = "1")int  page
+            @ModelAttribute WebsiteSearchDto websiteSearchDto
     ) {
-        System.out.println("=========== getList ===========");
-        return new ResponseEntity<>(websiteService.getList(page), HttpStatus.OK); // 페이지 정보, 웹사이트 정보, 카테고리 정보
+        if(websiteSearchDto.getPage() == null || websiteSearchDto.getSize() < 1) {
+            websiteSearchDto.setPage(1);
+        }
+        WebsiteResponseDto responseDto = websiteService.getList(websiteSearchDto);
+            return new ResponseEntity<>(responseDto, HttpStatus.OK); // 페이지 정보, 웹사이트 정보, 카테고리 정보
     }
-    // GET + ID + 추천 웹사이트
-    @GetMapping("{wid}")
-    public ResponseEntity<WebsiteDto> getOne(
-            @PathVariable(value = "wid", required = true) Long wid
+    // GET + ID
+    @GetMapping("/{wid}")
+    public ResponseEntity<WebsiteListDto> getOne(
+            @PathVariable(value = "wid", required = true) Long websiteId
     ) {
-        return new ResponseEntity<>(websiteService.getById(wid),HttpStatus.OK);
-    }
-    // GET + 검색
-    @GetMapping("/query")
-    public ResponseEntity<WebsiteResponseDto> getList(
-            @RequestParam(name = "p", defaultValue = "1")int  page,
-            @RequestParam(name = "q")String query
-    ) {
-            return new ResponseEntity<>(websiteService.getList(page, query), HttpStatus.OK); // 페이지 정보, 웹사이트 정보, 카테고리 정보
-    }
-    // GET + 카테고리
-    @GetMapping("/category/{cid}")
-    public ResponseEntity<WebsiteResponseDto> getList(
-            @RequestParam(name = "p", defaultValue = "1") int page,
-            @PathVariable(value = "cid", required = true) Long cid
-    ) {
-        System.out.println("=====================" + cid + "===========================");
-        return new ResponseEntity<>(websiteService.getList(page, cid), HttpStatus.OK);
+        return new ResponseEntity<>(websiteService.getById(websiteId),HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<WebsiteDto> create(
-            @RequestBody WebsiteDto websiteDto
+    @PostMapping("new")
+    public ResponseEntity<?> create(
+            @ModelAttribute WebsiteCreateDto websiteCreateDto,
+            HttpServletRequest request,
+            @RequestParam("img")List<MultipartFile> images
+//            @RequestParam("memberId") Long memberId
     ) {
-        return new ResponseEntity<>(websiteService.create(websiteDto), HttpStatus.CREATED);
+        try {
+            websiteService.create(websiteCreateDto, images);
+            return ResponseEntity.status(HttpStatus.CREATED).body("웹사이트 등록 성공");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("웹사이트 등록 중 오류가 발생했습니다.");
+        }
     }
 
     @PutMapping("{wid}")
-    public ResponseEntity<WebsiteDto> update(
-            WebsiteDto websiteDto,
-            @PathVariable(value = "wid", required = true) Long id
+    public ResponseEntity<WebsiteListDto> update(
+            WebsiteListDto websiteListDto,
+            @PathVariable(value = "wid", required = true) Long websiteId
     ) {
-        return new ResponseEntity<>(websiteService.update(websiteDto), HttpStatus.OK);
+        websiteListDto.setId(websiteId);
+        return new ResponseEntity<>(websiteService.update(websiteListDto), HttpStatus.OK);
     }
     
     // 웹 사이트 1개 삭제(무조건 wid로 개별 삭제할 것)
     @DeleteMapping("{wid}")
     public ResponseEntity<String> delete(
-            @PathVariable(value = "wid", required = true) Long id
+            @PathVariable(value = "wid", required = true) Long websiteId
     ) {
-        websiteService.delete(id);
+        websiteService.delete(websiteId);
         return new ResponseEntity<>("웹사이트가 삭제되었습니다.", HttpStatus.OK);
     }
 }

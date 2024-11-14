@@ -2,12 +2,14 @@ package com.main.web.siwa.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "website_image")
 public class WebsiteImage {
     @Id
@@ -23,8 +25,8 @@ public class WebsiteImage {
 
     // 상위 테이블(부모 테이블)
     @ManyToOne
-    @JsonBackReference
     @JoinColumn(name = "website_id")
+    @JsonBackReference
     private Website website;
 
 }

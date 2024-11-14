@@ -1,16 +1,20 @@
 package com.main.web.siwa.member.website.service;
 
-import com.main.web.siwa.member.website.dto.WebsiteDto;
+import com.main.web.siwa.member.website.dto.WebsiteCreateDto;
+import com.main.web.siwa.member.website.dto.WebsiteListDto;
 import com.main.web.siwa.member.website.dto.WebsiteResponseDto;
+import com.main.web.siwa.member.website.dto.WebsiteSearchDto;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 public interface WebsiteService {
-    WebsiteResponseDto getList(int page);
-    WebsiteResponseDto getList(int page, String query);
-    WebsiteResponseDto getList(int page, Long categoryId);
+    WebsiteResponseDto getList(Integer page, String title, Long categoryId);
+    WebsiteResponseDto getList(WebsiteSearchDto websiteSearchDto);
 
-    WebsiteDto getById(Long id);
-    WebsiteDto create(WebsiteDto websiteDto);
-    WebsiteDto update(WebsiteDto websiteDto);
+    WebsiteListDto getById(Long id);
+    WebsiteCreateDto create(WebsiteCreateDto websiteCreateDto, List<MultipartFile> images);
+    WebsiteListDto update(WebsiteListDto websiteListDto);
     void delete(Long id);
 
 }

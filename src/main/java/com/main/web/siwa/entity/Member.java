@@ -23,8 +23,12 @@ public class Member {
     @Column(name = "reg_date")
     private Instant regDate;
 
-    @Column(name = "email")
-    private String email;
+    @Column(name = "username")
+    private String username;
+    
+    // 이메일 인증 여부
+    @Column(name = "email_verified")
+    private Boolean emailVerified = false;
 
     @Column(name = "password")
     private String password;
@@ -36,8 +40,16 @@ public class Member {
     private String profileName;
 
     // 하위 테이블(자식 테이블)
-    @JsonManagedReference
     @OneToMany(mappedBy = "member")
+    @JsonManagedReference
     private List<Website> websites;
 
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<MemberRole> memberRoles;
+
+    // DB에 등록일이 제대로 삽이이 안되서 이거 씀
+    @PrePersist
+    protected void onCreate() {
+        this.regDate = Instant.now(); // 현재 시간으로 등록일 설정
+    }
 }
