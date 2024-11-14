@@ -6,17 +6,11 @@
     };
 </script>
 <template>
-        <header>
-        <section style="
-            margin: 20px 10px;
-            display: flex; justify-content: space-between;">
+    <header>
+        <h1>헤더</h1>
+        <section style="margin: 20px 10px; display: flex; justify-content: space-between;">
             <h1>상단 메뉴</h1>
-            <button class="icon:arrow-back text-hidden btn" @click="back">뒤로가기</button>
-            <!-- <ul class="icon:more-big">
-                <li>
-                    <RouterLink class="btn-style:default" to="report">신고</RouterLink>
-                </li>
-            </ul> -->
+            <NuxtLink class="icon:arrow-back text-hidden btn" to="" @click="back">뒤로가기</NuxtLink>
         </section>
     </header>
 </template>

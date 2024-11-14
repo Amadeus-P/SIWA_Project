@@ -1,102 +1,20 @@
 <template>
-    <header>
-        <h1>검색 페이지</h1>
-        <section style="
-                  margin: 20px 10px;
-                  display: flex; justify-content: space-between;">
-          <h1>상단 메뉴</h1>
-          <button class="icon:arrow-back text-hidden btn">뒤로가기</button>
-          <ul class="icon:more-big">
-            <li>
-              <a class="btn-style:default" href="share">공유</a>
-            </li>
-            <li>
-              <a class="btn-style:default" href="report">신고</a>
-            </li>
-          </ul>
-        </section>
-      </header>
 
+    <HeaderMenu/>    
+    
     <main>
+        <h1>검색 페이지</h1>
         <form action="" method="post" role="search">
-            <label class="label-card" style="position: relative; border-color: var(--main-color-1)">
-                <input type="search" name="q" placeholder="이름 또는 카테고리로 검색" autocomplete="off"
+            <label class="" style="position: relative; border-color: var(--main-color-1)">
+                <input type="search" name="keyWord" placeholder="이름 또는 카테고리로 검색" autocomplete="off"
                        style="margin-left: 40px;">
             </label>
-            <span class="icon:search text-hidden" style="position: absolute; left: 20px;"></span>
+            <span class="icon:search text-hidden" style="position: absolute; left: 20px;">검색</span>
             <button type="reset" class="btn" style="margin-right: 10px;">
                 <span class="btn-style:default">취소</span>
             </button>
         </form>
-        <section style="margin: 10px;">
-            <h1>자동완성기능</h1>
-            <ul class="auto-complete">
-                <li style="">
-                    <a href="">검색어</a>
-                </li>
-                <li>
-                    <a href="">검색어</a>
-                </li>
-                <li>
-                    <a href="">검색어</a>
-                </li>
-                <li>
-                    <a href="">검색어</a>
-                </li>
-                <li>
-                    <a href="">검색어</a>
-                </li>
-            </ul>
-        </section>
-        <section style="margin: 10px;">
-            <h1>인기 검색어</h1>
-            <span style="
-            display: flex;
-            margin-bottom: 10px;
-            font-size: var(--font-size-3); font-weight: var(--font-weight-6);">인기 검색어</span>
-            <ul class="top-searched">
-                <li>
-                    <span class="search-ranking">1</span>
-                    <span>디자인</span>
-                </li>
-                <li>
-                    <span class="search-ranking">2</span>
-                    <span>다이어리</span>
-                </li>
-                <li>
-                    <span class="search-ranking">3</span>
-                    <span>메모장</span>
-                </li>
-                <li>
-                    <span class="search-ranking">4</span>
-                    <span>우주</span>
-                </li>
-                <li>
-                    <span class="search-ranking">5</span>
-                    <span>레시피</span>
-                </li>
-                <li>
-                    <span class="search-ranking">6</span>
-                    <span>뉴스</span>
-                </li>
-                <li>
-                    <span class="search-ranking">7</span>
-                    <span>IT</span>
-                </li>
-                <li>
-                    <span class="search-ranking">8</span>
-                    <span>컴퓨터</span>
-                </li>
-                <li>
-                    <span class="search-ranking">9</span>
-                    <span>전자기기</span>
-                </li>
-                <li>
-                    <span class="search-ranking">10</span>
-                    <span>패션</span>
-                </li>
-            </ul>
-        </section>
+     
     </main>
 </template>
 

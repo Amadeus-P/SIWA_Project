@@ -1,5 +1,5 @@
 input{
-    margin: 10px 0 5px;
+    margin: 5px 0 10px;
     color: var(--base-color-1);
 }
 input[type="text"], input[type="password"], input[type="email"], input[type="url"]{

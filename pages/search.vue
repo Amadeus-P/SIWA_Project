@@ -4,14 +4,14 @@
     
     <h1>검색 페이지</h1>
     <main>
-        <form action="" method="post" role="search">
-            <label class="label-card" style="position: relative; border-color: var(--main-color-1)">
-                <input type="search" name="query" placeholder="이름 또는 카테고리로 검색" autocomplete="off"
+        <form role="search">
+            <label class="" style="position: relative; border-color: var(--main-color-1)">
+                <input type="search" name="keyWord" placeholder="이름 또는 카테고리로 검색" autocomplete="off"
                        style="margin-left: 40px;">
             </label>
-            <span class="icon:search text-hidden" style="position: absolute; left: 20px;"></span>
+            <span class="icon:search text-hidden" style="position: absolute; left: 20px;">검색</span>
         </form>
-        <section style="margin: 10px;">
+        <!-- <section style="margin: 10px;">
             <h1>자동완성기능</h1>
             <ul class="auto-complete">
                 <li style="">
@@ -79,7 +79,7 @@
                     <span>패션</span>
                 </li>
             </ul>
-        </section>
+        </section> -->
     </main>
 </template>
 

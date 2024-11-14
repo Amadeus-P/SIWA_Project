@@ -53,7 +53,7 @@
 
     --btn-height-1:32px;
 
-    --base-color-black: #000000;
+    --base-color-black: #1b1b1b;
     --base-color-black-opacity: #00000019;
     --base-color-white: #FFFFFF;
     --base-color-1: #000000DD; /** 가장 괜찮은 색깔 */
@@ -66,8 +66,8 @@
     --main-color-1: #009473;
 
     --accent-color-1: #EF0307;
-    --accent-color-red: #EF0307;
-    --accent-color-green: #28A745;
+    --accent\:red: #EF0307;
+    --accent\:green: #28A745;
 
     --icon\:like-color: #CC3333;
 

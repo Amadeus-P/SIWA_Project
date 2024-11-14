@@ -1,180 +1,218 @@
+<script setup>
+
+const {data: categoryData} = await useAuthFetch("categories");
+
+const selectedMainCategoryId = ref(null);
+const selectedSubCategoryId = ref(null);
+const selectedDetailCategoryId = ref(null);
+
+const categories = ref([]);
+
+
+
+if(categoryData.value){
+    categories.value = categoryData.value;
+}
+const mainCategories = computed(() => {
+    const filteredCategory = categories.value.filter(c => c.parentId == null);
+    console.log("등록페이지 대분류: ",  filteredCategory);
+    return filteredCategory;
+});
+const subCategories = computed(() => {
+    const filteredCategory = mainCategories.value.filter(c => c.subCategories)
+    .flatMap(c => c.subCategories || []);
+    console.log("등록페이지 중분류",  filteredCategory);
+    return filteredCategory;
+    
+});
+
+const detailCategories = computed(() => {
+    const filteredCategory = subCategories.value.filter(c => c.subCategories)
+    .flatMap(c => c.subCategories || []);
+    console.log("등록페이지 소분류", filteredCategory);
+    
+    return filteredCategory;
+});
+
+    const submitHandler = async (e) => {
+        e.preventDefault();
+        const formElement = e.target;
+        const formData = new FormData(e.target);
+        try {
+            // 데이터 전송 (Fetch API 사용)
+            let response = await useAuthFetch("member/websites", {
+                method: "POST",
+                body: formData
+            });
+            if (!response.ok) {
+                throw new Error('사이트 등록에 실패했습니다.');
+            }
+            const result = await response.json();
+            console.log('사이트 등록 성공:', result);
+            // 성공적으로 등록된 후 다른 페이지로 이동하거나 상태 초기화할 수 있음
+        } catch (error) {
+            console.error('에러 발생:', error);
+        }
+
+    }
+
+
+
+</script>
 <template>
-    <header>
-        <h1>웹사이트 등록 페이지</h1>
-        <section style="
-            margin: 20px 10px;
-            display: flex; justify-content: space-between;">
-            <h1>상단 메뉴</h1>
-            <button class="icon:arrow-back text-hidden btn">뒤로가기</button>
-            <ul class="icon:more-big">
-                <li>
-                    <RouterLink class="btn-style:default" to="report">신고</RouterLink>
-                </li>
-            </ul>
-        </section>
-    </header>
+    
+    <HeaderMenu/>
+    
     <main>
+        <h1>웹사이트 등록 페이지</h1>
         <section style="display: flex; justify-content: space-evenly;">
             <h1>사이트 정보 입력</h1>
-            <form action="" method="post" enctype="multipart/form-data">
+            <!-- ajax사용시 form태그의 속성은 필요가 없어지지만 HTML의 기본 구조를 따라서 태그를 남기고 속성만 지움 -->
+            <form class="form-edit-box" enctype="multipart/form-data" @submit.prevent="submitHandler">
                 <fieldset>
                     <legend class="legend">사이트 정보 입력</legend>
-                    <ul style="display: flex; gap: 10px; flex-direction: column;">
-                        <li>
-                            <label class="">
-                                <span>카테고리</span>
-                                <strong><span style="color: var(--accent-color-1);" aria-label="필수입력">*</span></strong>
-                                <input type="text" name="tag">
-                            </label>
-                            <div class="dropdown-menu">
-                                <button   type="button">대분류</button>
-                                <ul class="dropdown-content">
-                                    <li>프로그래밍</li>
-                                    <li>커뮤니티</li>
-                                    <li>패션</li>
-                                    <li>요리</li>
-                                    <li>디자인</li>
-                                    <li>AI</li>
-                                    <li>음악</li>
-                                    <li>게임</li>
-                                    <li>반려동물</li>
-                                    <li>뷰티</li>
-                                    <li>기타</li>
-                                </ul>
-                            </div>
-                            <div>
-                                <button type="button">중분류</button>
-                                <ul>
-                                    <li></li>
-                                    <li></li>
-                                    <li></li>
-                                    <li>기타</li>
-                                </ul>
-                            </div>
-                            <div>
-                                <button type="button">소분류</button>
-                                <ul >
-                                    <li></li>
-                                    <li></li>
-                                    <li></li>
-                                    <li>기타</li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <span>사이트 URL</span>
+
+                    <section class="mainCategoryList">
+                        <h2>아코디언 대분류 메뉴</h2>
+                        <label v-for="c in mainCategories" :key="c.id">
+                            <span>{{ c.name }}</span>
+                            <input type="radio" name="mainCategory" :value="c.id" v-model="selectedMainCategoryId"/>
+                            <button type="button" class="btn icon:arrow-down icon:text-right text-hidden" style="margin-left: auto;">메뉴 여닫이</button>
+                        </label>
+                    </section>
+
+                    <section class="subCategoryList">
+                        <h2>아코디언 중분류 메뉴</h2>
+                        <label v-for="c in subCategories" :key="c.id">
+                            <span>{{ c.name }}</span>
+                            <input type="radio" name="subCategory" :value="c.id" v-model="selectedSubCategoryId"/>
+                            <button type="button" class="btn icon:arrow-down icon:text-right text-hidden" style="margin-left: auto;">메뉴 여닫이</button>
+                        </label>
+                    </section>
+
+                    <section class="detailCategoryList">
+                        <h2>아코디언 소분류 메뉴</h2>
+                        <label v-for="c in detailCategories" :key="c.id">
+                            <span>{{ c.name }}</span>
+                            <input type="radio" name="detailCategory" :value="c.id" v-model="selectedDetailCategoryId"/>
+                        </label>
+                    </section>
+
+                    <section class="" style="margin-top: 50px; display: flex; gap: 10px; flex-direction: column;">
+                        <h2>사이트 정보</h2>
+                        <label class="">
+                            <span>URL</span>
                             <strong><span style="color: var(--accent-color-1);" aria-label="필수입력">*</span></strong>
-                            <label class="" style="display: flex; height: 30px; border: 1px solid var(--base-color-3); border-radius: 3px;">
-                                <input type="url" id="url-prefix" name="address" pattern="https:(//)?.*" required>
-                            </label>
-                        </li>
-                        <li>
-                            <span>사이트 명</span>
+                            <input type="url" id="url-prefix" name="url" pattern="https:(//)?.*" required>
+                        </label>
+                        <label class="">
+                            <span>타이틀</span>
                             <strong><span style="color: var(--accent-color-1);" aria-label="필수입력">*</span></strong>
-                            <label class="" style="display: flex; height: 30px; border: 1px solid var(--base-color-3); border-radius: 3px;">
-                                <input type="text" name="site-name" required autofocus autocomplete="on">
-                            </label>
-                        </li>
-                        <li>
-                            <label class="" style="height: 100px; justify-content: center; align-items: center;">
-                                <span>이미지 업로드</span>
-                                <input type="file" name="img" style="">
-                            </label>
-                        </li>
-                    </ul>
-                    <span style=" font-size: var(--font-size-2); font-weight: var(--font-weight-6);  color: var(--base-color-3);">웹사이트와 관련된 이미지나 스크린샷을 올려주세요.</span>
+                            <input type="text" name="title" required autofocus autocomplete="on">
+                        </label>
+                        <label class="">
+                            <span>이미지 업로드</span>
+                            <span style="font-size: var(--font-size-2); font-weight: var(--font-weight-6);  color: var(--base-color-3);">웹사이트와 관련된 이미지나 스크린샷을 올려주세요.</span>
+                            <input type="file" name="img" style="">
+                        </label>
+                    </section>
+
                 </fieldset>
-                <div style="margin: 40px 0;">
-                    <button class="submit-btn">사이트 등록하기</button>
+                <div style="margin: 100px 0;">
+                    <button class="btn btn-submit btn:round">사이트 등록하기</button>
                 </div>
             </form>
         </section>
-        <article style="margin-bottom: 60px;">
-            <h1>미리보기</h1>
-            <div class="website-card" style="position: relative;">
-                    <div>
-                        <!-- {{ website.imgId }} -->
-                          <!-- {{  key }}: {{ value -->
-                        <img class="website-img" src="/img/website/mushroom-8313142_1280.jpg" alt="웹사이트 이미지">
-                    </div>
-                    <div class="icon:like icon:font-1" style="
-                            position: absolute; top: 5px; right: 5px;
-                            margin-left: auto;
-                            font-size: var(--font-size-3); font-weight: var(--font-weight-4);
-                            color: var(--base-color-1);">
-                    </div>
-                    <ul class=""
-                            style="position: relative; display: flex; flex-basis: 100%; gap: 2px; flex-direction: column; margin: 5px 10px 0 ; ">
-                        <li style="display: flex; justify-content: space-between;">
-                            <span class="text-overflow" style="width: 80%; font-size: var(--font-size-4); font-weight: var(--font-weight-6);">이십자이내로이름짓기</span>
-                            <span class="icon:more text-hidden"
-                                    style="position: absolute; top: 0; right: 0;">더보기</span>
-                        </li>
-                    </ul>
-                    <nav style="margin: 5px 10px 0; overflow: hidden; display: flex; justify-content: start; align-items: center; flex-basis: 100%;">
-                        <h1>카테고리 목록</h1>
-                        <ul style="display: flex; justify-content: start; align-items: center; flex-basis: 100%; gap: 2px;
-                        overflow: hidden; text-wrap: nowrap;">
-                            <li>
-                                <div class="btn-style:square" style=" font-size: var(--font-size-3); color: var(--base-color-1);" href="">디자인</div>
-                            </li>
-                            <li>
-                                <div class="btn-style:square" style=" font-size: var(--font-size-3); color: var(--base-color-1);" href="">다이어리</div>
-                            </li>
-                            <li>
-                                <div class="btn-style:square" style=" font-size: var(--font-size-3); color: var(--base-color-1);" href="">우주</div>
-                            </li>
-                        </ul>
-                     </nav>
-                </div>
-        </article>
     </main>
 </template>
 
 <style scoped>
 
-.dropdown-menu{
-    
-    cursor: pointer;
+/* 아코디언 메뉴 숨기기 */
+.subCategoryList, .detailCategoryList{
+    height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
 }
-.dropdown-content{
-    display: none;
-    z-index: 10;
+/* 중분류 메뉴 보이기 */
+.mainCategoryList:has(input[name="mainCategory"]:checked) + .subCategoryList{
+    height: auto;
+    transition: max-height 0.3s ease;
 }
-.dropdown-content li{
-    height: 20px;
-    margin: 5px 0;
-    
-    display: block;
-}
-.dropdown-content li:hover{
-    background-color: var(--base-color-4);
-}
-
-.dropdown-menu:hover .dropdown-content{
-    display: block;
-    background-color: var(--base-color-5);
+/* 소분류 메뉴 보이기 */
+.subCategoryList:has(input[name="subCategory"]:checked) + .detailCategoryList{
+    height: auto;
+    transition: max-height 0.3s ease;
 }
 
+.mainCategoryList{
+    label{
+        border-top: 2px solid var(--base-color-1);
+    }
+}
+.subCategoryList{
+    label{
+        background-color: var(--base-color-4);
+    }
+}
+.detailCategoryList{
+    label{
+        background-color: var(--base-color-3);
+        
+        &:last-child{
+            border-bottom: 3px solid var(--base-color-1);
+        }
+    }
+}
 
-.submit-btn {
-    width: 100%;
-    padding: 5px 24px;
-    margin: 0;
-    font-size: 16px;
-    border: none;
-    border-radius: 30px;
-    color: rgb(255, 255, 255);
-    background-color: rgb(0, 148, 116);
-    transition: all 0.4s;
+label:has(input[type="radio"]:checked){
+    background-color: var(--main-color-1);
+}
 
+.mainCategoryList label, .subCategoryList label, .detailCategoryList label{
+    display: flex;
+    padding: 10px;
+    &:hover{
+        background-color: var(--main-color-1);
+        transition: background-color 0.1s ease;
+    }
 }
-.submit-btn:hover {
-    color: rgb(255, 255, 255);
-    background-color: rgb(1, 121, 87);
+
+section label span{
+    font-size: var(--font-size-4);
+    font-weight: var(--font-weight-6);
+    color: var(--base-color-black);
 }
-input::placeholder, textarea::placeholder{
-    font-size:var(--font-size-1);
-    color: var(--base-color-3);
-}
+section label{
+        display: flex;
+        width: auto;
+        flex-wrap: wrap;
+        >input{
+            line-height: 20px;
+            border: 1px solid var(--base-color-4);
+            border-radius: 5px;
+            width: 100%;
+            height: 40px;
+            padding: 5px 10px;
+            font-size: var(--font-size-3);
+            font-weight: var(--font-weight-4);
+            &:focus{
+                border: 1px solid var(--base-color-1);
+            }
+        }
+    }
+
+
+
+    .icon\:arrow-down::before{
+        width: 36px;
+        height: 36px;
+        mask-size: 36px 36px;
+        background-color: var(--base-color-1);
+        transition: transform 0.3s ease;
+    }
+    .icon\:arrow-down:has(input[type="radio"]:checked)::before {
+        transition: transform 0.3s ease;
+        transform: rotate(180deg);
+    }
 </style>

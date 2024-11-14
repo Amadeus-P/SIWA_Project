@@ -1,19 +1,40 @@
 <script setup>
 
-    const callback = (response) => {
-    // This callback will be triggered when the user selects or login to
-    // his Google account from the popup
-    console.log("Handle the response", response)
-    }
-
+    const username = ref("");
     const password = ref("");
     const passwordCheck = ref("");
+
     watchEffect(()=>{
-        // password === passwordCheck
-
-        // if(isShowPasswordCheck = "password-retype")
-
+        if(password.value !== passwordCheck.value){
+            console.log("비밀번호가 일치하지 않습니다.");
+            return;
+        }
     });
+
+    const signupHandler = async() => {
+        try {
+            let response = await useDataFetch("auth/signup", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: {
+                    username: username.value,
+                    password: password.value,
+                },
+            });
+            if(response.status === 201){
+                // 회원가입 성공 후 로그인 페이지로 이동
+                console.log("회원가입 성공");
+                const returnURL = useRoute().query.returnURL || "/";
+                return navigateTo(returnURL);
+            } else{
+                console.log("회원가입 성공: ", response);
+            }
+        } catch(error){
+            console.log(error);
+        }
+    }
 
     // 비밀번호 숨기기/보이기
     const isShowPassword = ref(false);
@@ -36,20 +57,20 @@
     <main>
         <section style="display: flex; flex-wrap: wrap; width: auto; margin: 10px;">
             <h1>회원가입 페이지</h1>
-            <form action="member" method="post">
+            <form @submit.prevent="signupHandler">
                 <label style="">
                     <span>이메일</span>
-                    <input type="email" name="email" placeholder="예시) wiwst@gmail.com" autofocus autocomplete="off" required/>
+                    <input type="email" name="username" v-model="username" placeholder="예시) wiwst@gmail.com" autofocus autocomplete="off" required/>
                 </label>
                 
                 <label style="position: relative;">
                     <span>비밀번호</span>
-                    <input v-bind:type="isShowPassword ? 'text' : 'password'" 
+                    <input :type="isShowPassword ? 'text' : 'password'" 
                         v-model="password" name="password" pattern="^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{12,20}$"
-                        placeholder="" autocomplete="off" required/>
+                        placeholder="12~20자의 영어, 숫자, 특수문자 포함" autocomplete="off" required/>
                     <button type="button" 
-                        v-bind:class="isShowPassword? ['icon:hide', 'text-hidden'] : ['icon:show', 'text-hidden']" 
-                        style="z-index: 100; position: absolute; right: 10px; top: 50px; transform: translateY(-0%);" 
+                        :class="isShowPassword? ['icon:hide', 'text-hidden'] : ['icon:show', 'text-hidden']" 
+                        style="z-index: 100; position: absolute; right: 10px; top: 50px; transform: translateY(-25%);" 
                         @click="showPassword">
                         {{ isShowPassword ? '숨기기' : '보이기' }}
                     </button>
@@ -57,27 +78,28 @@
                 
                 <label style="position: relative;">
                     <span>비밀번호 확인</span>
-                    <input v-bind:type="isShowPasswordCheck? 'text' : 'password'" 
+                    <input class="passwordCheck" 
+                        :type="isShowPasswordCheck? 'text' : 'password'" 
                         v-model="passwordCheck" name="password" autocomplete="off" required/>
                     <button type="button" 
-                        v-bind:class="isShowPasswordCheck? ['icon:hide', 'text-hidden'] : ['icon:show', 'text-hidden']" 
-                        style="z-index: 100; position: absolute; right: 10px; top: 50px;  transform: translateY(-0%);"
+                        :class="isShowPasswordCheck? ['icon:hide', 'text-hidden'] : ['icon:show', 'text-hidden']" 
+                        style="z-index: 100; position: absolute; right: 10px; top: 50px;  transform: translateY(-25%);"
                         @click="showPasswordCheck">
                         {{ isShowPasswordCheck ? '숨기기' : '보이기' }}
                     </button>
                 </label>
                 
                 <div style="display: flex; margin-top: 50px;">
-                    <button class="submit-btn btn-style:round" style="">회원가입하기</button>
+                    <button class="btn btn-submit btn:round" style="">회원가입하기</button>
                 </div>
     
             </form>
             <div style="position: relative; border: none; border-top: 1px solid var(--base-color-3); margin: 50px 0 10px 0; width: 100%;">
                 <div style="position: absolute; top: -0.7em; left: 50%; transform: translateX(-50%); background: white; padding: 0 5px;">다른 계정으로 회원가입</div>
-                <GoogleLogin :callback="callback"/>
+                
             </div>
             <div style="display: flex; justify-content: center; margin-top: 20px; width: 100%;">
-                <RouterLink class="" style="font-size: var(--font-size-3); font-weight: var(--font-weight-6);" to="/signin">이메일로 로그인</RouterLink>
+                <NuxtLink class="" style="font-size: var(--font-size-3); font-weight: var(--font-weight-6);" to="/signin">이미 회원이라면</NuxtLink>
             </div>
 
         </section>
@@ -109,58 +131,87 @@ form{
             &:focus{
                 border: 1px solid var(--base-color-1);
             }
-            /* &::placeholder{
-                font-size: var(--font-size-3);
-                font-weight: var(--font-weight-4);
-            } */
         }
     }
-    label:has(input[type="email"]:valid){
+    label:has(input[type="email"]:user-valid){
         >input[type="email"]{
-            border: 1px solid var(--accent-color-green);
+            border: 1px solid var(--accent\:green);
         }
         &::after{
                 content: "사용 가능한 이메일입니다.";
                 display: flex;
                 height: auto;
-                color: var(--accent-color-green);
+                color: var(--accent\:green);
         }
     }
-    label:has(input[type="password"]:valid, input[type="text"]:valid){
-        >input[type="password"], >input[type="text"]{
-            border: 1px solid var(--accent-color-green);
-        }
-        &::after{
-                content: "적합한 비밀번호입니다.";
-                display: flex;
-                height: auto;
-                color: var(--accent-color-green);
-        }
+    label:has(
+        input[type="password"]:user-valid, 
+        input[type="text"]:user-valid){
+            >input[type="password"], >input[type="text"]{
+                border: 1px solid var(--accent\:green);
+            }
+            &::after{
+                    content: "적합한 비밀번호입니다.";
+                    display: flex;
+                    height: auto;
+                    color: var(--accent\:green);
+            }
     }
 
-    label:has(input[type="email"]:invalid){
+    label:has(input[type="email"]:user-invalid){
         >input[type="email"]{
-            border: 1px solid var(--accent-color-red);
+            border: 1px solid var(--accent\:red);
         }
         &::after{
                 content: "유효하지 않은 이메일입니다.";
                 display: flex;
                 height: auto;
-                color: var(--accent-color-red);
+                color: var(--accent\:red);
         }
     }
-    label:has(input[type="password"]:invalid, input[type="text"]:invalid){
+    label:has(
+        input[type="password"]:user-invalid, 
+        input[type="text"]:user-invalid){
+            >input[type="password"], >input[type="text"]{
+                border: 1px solid var(--accent\:red);
+            }
+            &::after{
+                    content: "12~20자의 영어, 숫자, 특수문자 포함";
+                    display: flex;
+                    height: auto;
+                    color: var(--accent\:red);
+            }
+    }
+    label:has(
+        input[type="password"]:user-valid.passwordCheck,
+        input[type="text"]:user-valid.passwordCheck
+    ){
+        
         >input[type="password"], >input[type="text"]{
-            border: 1px solid var(--accent-color-red);
+            border: 1px solid var(--accent\:green);
         }
         &::after{
-                content: "12~20자의 영어, 숫자, 특수문자( - 또는 _ 또는 . )";
-                display: flex;
-                height: auto;
-                color: var(--accent-color-red);
+            content: "비밀번호가 일치합니다";
+            display: flex;
+            height: auto;
+            color: var(--accent\:green);
         }
     }
-}
+    label:has(
+        input[type="password"]:user-invalid.passwordCheck,
+        input[type="text"]:user-invalid.passwordCheck
+    ){
+        >input[type="password"], >input[type="text"]{
+            border: 1px solid var(--accent\:red);
+        }
+        &::after{
+            content: "비밀번호가 일치하지 않습니다";
+            display: flex;
+            height: auto;
+            color: var(--accent\:red);
+        }
+    }
+}/* form */
 .submit-btn{
     display: flex;
     justify-content: center;

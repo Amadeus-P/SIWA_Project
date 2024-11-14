@@ -26,6 +26,9 @@
 .icon\:arrow-down-small::before{
     mask-image: url("../img/icon/arrow_down.svg"); 
 }
+.icon\:arrow-foward-small::before{
+    mask-image: url("../img/icon/arrow_forward.svg");
+}
 .icon\:copy-small::before{
     mask-image: url("../img/icon/copy.svg");
 }
@@ -73,6 +76,10 @@
 .icon\:arrow-back::before{
     mask-image: url("../img/icon/arrow_back.svg");
 }
+.icon\:arrow-foward::before{
+    mask-image: url("../img/icon/arrow_forward.svg");
+}
+
 .icon\:recommended::before{
     mask-image: url("../img/icon/thumb_up.svg");
 }
@@ -105,11 +112,12 @@
         .icon\:menu,
         .icon\:settings,
         .icon\:more,
-        .icon\:arrow-back,
         .icon\:recommended,
         .icon\:dislike,
         .icon\:comment,
+        .icon\:arrow-back,
         .icon\:arrow-down,
+        .icon\:arrow-foward,
         .icon\:notification,
         .icon\:copy
         )::before{
@@ -135,6 +143,7 @@
         .icon\:dislike-small,
         .icon\:comment-small,
         .icon\:arrow-down-small,
+        .icon\:arrow-foward-small,
         .icon\:copy-small
         )::before{
             
@@ -202,6 +211,7 @@
         .icon\:dislike-small,
         .icon\:comment-small,
         .icon\:arrow-down-small,
+        .icon\:arrow-foward-small,
         .icon\:notification-small,
         .icon\:copy-small
         ) {
@@ -226,6 +236,7 @@
         .icon\:dislike,
         .icon\:comment,
         .icon\:arrow-down,
+        .icon\:arrow-foward,
         .icon\:notification,
         .icon\:copy
         ){
@@ -371,7 +382,6 @@
 }
 .icon\:font-5{
     font-size:var(--font-size-5);
-
     color: var(--base-color-3);
     text-align: center;
 }

@@ -1,42 +1,81 @@
 <script setup>
+    import { jwtDecode } from 'jwt-decode';
+    import { decodeCredential, googleTokenLogin } from 'vue3-google-login';
 
-    import { decodeCredential } from 'vue3-google-login';
+    // model 변수
+    const username = ref("");
+    const password = ref("");
 
-    // 구글 로그인 OAuth
-    const callback = (response) => {
-        // This callback will be triggered when the user selects or login to
-        // his Google account from the popup
-        console.log("Handle the response", response);
-
-        // 회원 정보 읽을 수 있게 JWT(response)를 decode(credential)하기 
-        let member = decodeCredential(response.credential);
-
-        // composables은 전역 객체라 import 직접 쓰지 않고 불러오기 가능함, "use-" 키워드 사용
-        let memberDetails = useMemberDetails(); 
-
-        memberDetails.signin({
-            id: 1,
-            email: member.email,
-            profileName: member.profileName,
-            profileImage: member.profileImage,
-            roles: ['member', 'admin']
-        });
-
-        console.log("회원 정보: ", memberDetails.profileName, memberDetails.email);
-    
-        // const returnURL = useRoute().query.returnURL || "/";
-        // return navigateTo(returnURL);
-    }
-
-
-
-    // const password = ref("");
-
-    // 비밀번호 숨기기/보이기
+        // 비밀번호 숨기기/보이기
     const isShowPassword = ref(false);
     const showPassword = () => {
         isShowPassword.value = !isShowPassword.value;
     };
+
+    const userDetails = useUserDetails();
+
+    const localLoginHandler = async() => {
+        try{
+
+            // 서버로 보내기
+            let response = await useDataFetch("auth/signin", {
+                // usePost()
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: {
+                    // 로그인 정보 보내기
+                    username: username.value,
+                    password: password.value,
+                }
+            });
+
+    
+            console.log(response);
+    
+            if (!response || !response.token) {
+                console.log(response);
+                
+                return;
+            }
+            
+            // JWT 디코드
+            let userInfo = jwtDecode(response.token);
+            userDetails.signin({
+                id: userInfo.id,
+                username: userInfo.username,
+                profileName: userInfo.profileName,
+                profileImage: userInfo.profileImage,
+                roles: userInfo.roles.map(role => role.authority),
+                token: response.token
+            });
+            console.log("로그인 완료", userInfo);
+            console.log('전송', username.value, password.value);
+            const returnURL = useRoute().query.returnURL || "/";
+            return navigateTo(returnURL);
+        } catch(error){
+            console.log(error);
+        }
+    }
+
+
+    const googleLoginHandler = async() => {
+        let token;
+        {
+            // googleTokenLogin.then();
+            let response = await googleTokenLogin(); // JWT 토큰?
+            console.log(response);
+            token = response.access_token;
+        }
+        {
+            let response = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${token}`); // 사용자 정보를 얻어옴
+            let userInfo = await response.json();
+            console.log(userInfo);
+        }
+        const returnURL = useRoute().query.returnURL || "/";
+        return navigateTo(returnURL);
+    }
 
 </script>
 
@@ -46,38 +85,43 @@
 
     <main>
         <section style="display: flex; flex-wrap: wrap; width: auto; margin: 10px;">
-            <h1>회원가입 페이지</h1>
-            <form action="member" method="post">
+            <h1>로그인 페이지</h1>
+            <form @submit.prevent="localLoginHandler">
                 <label style="">
                     <span>이메일</span>
-                    <input type="email" name="email" placeholder="예시) wiwst@gmail.com" autofocus autocomplete="off" required/>
+                    <input type="email" v-model="username" autofocus autocomplete="on" required/>
                 </label>
                 
                 <label style="position: relative;">
                     <span>비밀번호</span>
-                    <input v-bind:type="isShowPassword ? 'text' : 'password'" 
-                        v-model="password" name="password" pattern="^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{12,20}$"
-                        placeholder="" autocomplete="off" required/>
+                    <input :type="isShowPassword ? 'text' : 'password'" 
+                        v-model="password"
+                        autocomplete="off" required/>
+                        <!-- pattern="^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{12,20}$" -->
                     <button type="button" 
-                        v-bind:class="isShowPassword? ['icon:hide', 'text-hidden'] : ['icon:show', 'text-hidden']" 
-                        style="z-index: 100; position: absolute; right: 10px; top: 50px; transform: translateY(-0%);" 
+                        :class="isShowPassword? ['icon:hide', 'text-hidden'] : ['icon:show', 'text-hidden']" 
+                        style="z-index: 100; position: absolute; right: 10px; top: 50px; transform: translateY(-25%);" 
                         @click="showPassword">
                         {{ isShowPassword ? '숨기기' : '보이기' }}
                     </button>
                 </label>
                 
                 <div style="display: flex; margin-top: 50px;">
-                    <button class="submit-btn btn-style:round" style="">로그인하기</button>
+                    <!-- 
+                    이벤트를 버튼에 주지 않은 이유. 이벤트를 넣는 순간  내가 버튼의 기본 기능까지 직접 설정해야함
+                    대신 form에 이벤트를 주면 됨
+                      -->
+                    <button class="btn btn-submit btn:round" style="">로그인하기</button>
                 </div>
- 
-    
             </form>
             <div style="position: relative; border: none; border-top: 1px solid var(--base-color-3); margin: 50px 0 10px 0; width: 100%;">
-                <div style="position: absolute; top: -0.7em; left: 50%; transform: translateX(-50%); background: white; padding: 0 5px;">다른 계정으로 회원가입</div>
-                <GoogleLogin :callback="callback"/>
+                <div style="position: absolute; top: -0.7em; left: 50%; transform: translateX(-50%); background: white; padding: 0 5px;">다른 계정으로 로그인</div>
             </div>
-            <div style="display: flex;  justify-content: center; margin-top: 20px;  width: 100%;">
-                <RouterLink class="" style="font-size: var(--font-size-3); font-weight: var(--font-weight-6);" to="signup">이메일로 회원가입</RouterLink>
+            <div class="btn btn-submit btn:round" style="background-color: var(--base-color-white); color: var(--base-color-black); margin-top: 20px;">
+                <NuxtLink @click.prevent="googleLoginHandler" class="submit-btn btn-style:round" style="font-size: var(--font-size-3); font-weight: var(--font-weight-6);" to="">구글 로그인</NuxtLink>
+            </div>
+            <div style="display: flex; justify-content: center; margin-top: 20px; width: 100%;">
+                <NuxtLink class="" style="font-size: var(--font-size-3); font-weight: var(--font-weight-6); cursor: pointer;" to="/signup">회원이 아니라면</NuxtLink>
             </div>
         </section>
     </main>
@@ -108,69 +152,19 @@ form{
             &:focus{
                 border: 1px solid var(--base-color-1);
             }
-            /* &::placeholder{
-                font-size: var(--font-size-3);
-                font-weight: var(--font-weight-4);
-            } */
         }
     }
-    label:has(input[type="email"]:valid){
+    label:has(input[type="email"]:user-invalid){
         >input[type="email"]{
-            border: 1px solid var(--accent-color-green);
+            border: 1px solid var(--accent\:red);
         }
         &::after{
-                content: "사용 가능한 이메일입니다.";
+                content: "올바른 이메일 형식을 입력하세요.";
                 display: flex;
                 height: auto;
-                color: var(--accent-color-green);
+                color: var(--accent\:red);
         }
     }
-    label:has(input[type="password"]:valid, input[type="text"]:valid){
-        >input[type="password"], >input[type="text"]{
-            border: 1px solid var(--accent-color-green);
-        }
-        &::after{
-                content: "적합한 비밀번호입니다.";
-                display: flex;
-                height: auto;
-                color: var(--accent-color-green);
-        }
-    }
-
-    label:has(input[type="email"]:invalid){
-        >input[type="email"]{
-            border: 1px solid var(--accent-color-red);
-        }
-        &::after{
-                content: "유효하지 않은 이메일입니다.";
-                display: flex;
-                height: auto;
-                color: var(--accent-color-red);
-        }
-    }
-    label:has(input[type="password"]:invalid, input[type="text"]:invalid){
-        >input[type="password"], >input[type="text"]{
-            border: 1px solid var(--accent-color-red);
-        }
-        &::after{
-                content: "12~20자의 영어, 숫자, 특수문자( - 또는 _ 또는 . )";
-                display: flex;
-                height: auto;
-                color: var(--accent-color-red);
-        }
-    }
-}
-.submit-btn{
-    display: flex;
-    justify-content: center;
-    flex-basis: 100%;
-    width: 300px;
-    height: 40px;
-    margin: 10px;
-    font-size: var(--font-size-4);
-    font-weight: var(--font-weight-6);
-    color: var(--base-color-white);
-    background-color: var(--base-color-1);
 }
 
 .icon\:hide::before{

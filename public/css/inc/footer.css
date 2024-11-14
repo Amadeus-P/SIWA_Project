@@ -28,6 +28,3 @@ ul.footer-menu>li{
 	--icon-width-4: 100px;
 	width: var(--icon-width-4);
 }
-.banner{
-	/* 10개마다 중간 중간 배너 추가 */
-}
