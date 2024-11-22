@@ -92,7 +92,6 @@ public class DefaultWebsiteService implements WebsiteService {
                 .range(startNum, startNum+5)
                 .boxed().toList();
 
-
         return WebsiteResponseDto
                 .builder()
                 .websiteListDtos(websiteListDtos)
@@ -104,52 +103,6 @@ public class DefaultWebsiteService implements WebsiteService {
 
                 .build();
     }
-
-
-
-    // GET + 검색
-//    @Override
-//    public WebsiteResponseDto getList(Integer page, String query) {
-//        Sort sort = Sort.by("regDate").descending();
-//        Pageable pageable = PageRequest.of(page-1, 20, sort); // 0
-//        Page<Website> websitePage = websiteRepository.findAll(query, pageable);
-//
-//        // Entity를 DTO로 바꾸기 > Stream
-//        List<WebsiteListDto> websiteListDtos = websitePage
-//                .getContent()
-//                .stream()
-//                .map((Website website) -> {
-//                    WebsiteListDto websiteListDto = modelMapper.map(website, WebsiteListDto.class);
-//                    return websiteListDto;
-//                })
-//                .toList();
-//        long websiteTotalCount = websitePage.getTotalElements();
-//
-//        return WebsiteResponseDto
-//                .builder()
-//                .websiteListDtos(websiteListDtos)
-//                .websiteTotalCount(websiteTotalCount)
-//                .build();
-//    }
-
-    // 카테고리
-//    @Override
-//    public List<WebsiteListDto> getList(Long websiteId, Long categoryId) {
-////        Sort sort = Sort.by("regDate").descending();
-////        Pageable pageable = PageRequest.of(page-1, 20, sort); // 0
-//        List<Website> websites = websiteRepository.findByCategoryId(categoryId);
-//
-//        return  websites.stream()
-//                    .map((Website website) -> WebsiteListDto
-//                            .builder()
-//                            .id(website.getId())
-//                            .url(website.getUrl())
-//                            .name(website.getTitle())
-//                            .regDate(website.getRegDate())
-//                            .category(website.getCategory())
-//                            .build())
-//                    .toList();
-//    }
     // GET + id
     @Override
     public WebsiteListDto getById(Long id) {
@@ -158,50 +111,4 @@ public class DefaultWebsiteService implements WebsiteService {
                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 웹사이트입니다. id = " + id));
         return modelMapper.map(website, WebsiteListDto.class);
     }
-    // POST
-    @Override
-    @Transactional
-    public WebsiteListDto create(WebsiteListDto websiteListDto) {
-        // 중복검사
-//        Website website = websiteRepository.findById(websiteDto.getId()).orElseThrow();
-//        if(websiteDto.getUrl().equals(website));
-
-        Website website = websiteRepository.save(modelMapper.map(websiteListDto, Website.class));
-        return modelMapper.map(website, WebsiteListDto.class);
-    }
-    // PUT
-    @Override
-    public WebsiteListDto update(WebsiteListDto websiteListDto) {
-        // 1. JPA SQL Method
-        // 업데이트는 기존에 존재하는 테이블에만 데이터를 저장할 수 있게
-        // 테이블 id가 있는지 확인하는 과정을 넣는다.
-        Website website = websiteRepository
-                .findById(websiteListDto.getId())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 웹사이트입니다. id = " + websiteListDto.getId()));
-
-        // 일괄 업데이트가 아닌 부분 업데이트 로직을 구현함
-        if(websiteListDto.getTitle() != null)
-            website.setTitle(websiteListDto.getTitle());
-//        if(websiteListDto.getWebsiteImages() != null)
-//            website.setImages(websiteListDto.getImages());
-//        if(websiteListDto.getCategory() != null)
-//            website.setCategory(websiteListDto.getCategory());
-
-        // JPA가 알아서 save()하긴 하는데
-        websiteRepository.save(website);
-
-        // 혹시 모르니까 저장 후에도 id 확인
-        Website updateWebsite = websiteRepository
-                .findById(websiteListDto.getId())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 웹사이트입니다. id = " + websiteListDto.getId()));
-
-        return modelMapper.map(updateWebsite, WebsiteListDto.class);
-
-    }
-    // DELETE
-    @Override
-    public void delete(Long id) {
-        websiteRepository.deleteById(id);
-    }
-
 }

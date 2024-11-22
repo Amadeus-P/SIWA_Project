@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
             this.websiteService = websiteService;
         }
 
-        // GET + 검색
         @GetMapping
         public ResponseEntity<WebsiteResponseDto> getList(
                 @ModelAttribute WebsiteSearchDto websiteSearchDto
@@ -34,35 +33,10 @@ import org.springframework.web.bind.annotation.*;
             return new ResponseEntity<>(responseDto, HttpStatus.OK); // 페이지 정보, 웹사이트 정보, 카테고리 정보
         }
     // GET + ID + 추천 웹사이트
-    @GetMapping("/{wid}")
+    @GetMapping("/{websiteId}")
     public ResponseEntity<WebsiteListDto> getOne(
-            @PathVariable(value = "wid", required = true) Long websiteId
+            @PathVariable(value = "websiteId", required = true) Long websiteId
     ) {
         return new ResponseEntity<>(websiteService.getById(websiteId),HttpStatus.OK);
-    }
-
-    @PostMapping
-    public ResponseEntity<WebsiteListDto> create(
-            @RequestBody WebsiteListDto websiteListDto
-    ) {
-        return new ResponseEntity<>(websiteService.create(websiteListDto), HttpStatus.CREATED);
-    }
-
-    @PutMapping("{wid}")
-    public ResponseEntity<WebsiteListDto> update(
-            WebsiteListDto websiteListDto,
-            @PathVariable(value = "wid", required = true) Long websiteId
-    ) {
-        websiteListDto.setId(websiteId);
-        return new ResponseEntity<>(websiteService.update(websiteListDto), HttpStatus.OK);
-    }
-    
-    // 웹 사이트 1개 삭제(무조건 wid로 개별 삭제할 것)
-    @DeleteMapping("{wid}")
-    public ResponseEntity<String> delete(
-            @PathVariable(value = "wid", required = true) Long websiteId
-    ) {
-        websiteService.delete(websiteId);
-        return new ResponseEntity<>("웹사이트가 삭제되었습니다.", HttpStatus.OK);
     }
 }

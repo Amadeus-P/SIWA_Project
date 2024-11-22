@@ -2,15 +2,18 @@ package com.main.web.siwa.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "member")
 public class Member {
@@ -19,9 +22,14 @@ public class Member {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ColumnDefault("current_timestamp()")
     @Column(name = "reg_date")
     private Instant regDate;
+
+    // DB에 등록일이 제대로 삽이이 안되서 이거 씀
+    @PrePersist
+    protected void onCreate() {
+        this.regDate = Instant.now(); // 현재 시간으로 등록일 설정
+    }
 
     @Column(name = "username")
     private String username;
@@ -47,9 +55,16 @@ public class Member {
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<MemberRole> memberRoles;
 
-    // DB에 등록일이 제대로 삽이이 안되서 이거 씀
-    @PrePersist
-    protected void onCreate() {
-        this.regDate = Instant.now(); // 현재 시간으로 등록일 설정
-    }
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Likes> likes;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Dislike> dislikes;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Bookmark> bookmark;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
+
 }

@@ -20,7 +20,7 @@ public class JwtUtil {
     private final Key secretKey;
 
     // final 에러는 오버로드 생성자로 구현해 주면 됨
-    public JwtUtil(@Value("${rland.jwt.secret}") String secret) {
+    public JwtUtil(@Value("${siwa.jwt.secret}") String secret) {
         byte[] keyBytes = Decoders.BASE64.decode(secret);
         this.secretKey = Keys.hmacShaKeyFor(keyBytes);
     }

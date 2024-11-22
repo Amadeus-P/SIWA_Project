@@ -67,7 +67,7 @@ public class SecurityConfig {
                         authorizeRequests -> authorizeRequests
                                 .requestMatchers("/admin/**").hasRole("ADMIN") // hasAuthority("ADMIN")
                                 .requestMatchers("/member/**").hasAnyRole("MEMBER", "ADMIN")
-                                .requestMatchers("/auth/**").permitAll()
+//                                .requestMatchers("/auth/**").permitAll()
                                 .anyRequest().permitAll()
                 ).sessionManagement(
                         session
@@ -86,7 +86,7 @@ public class SecurityConfig {
 
         // CORS 설정을 source에 담아서 스프링 Security에게 전달
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(Arrays.asList("http://localhost", "http://localhost:3000"));
+        config.setAllowedOrigins(Arrays.asList("http://localhost", "http://localhost:3000","http://localhost:5501","http://192.168.0.1:5501"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.addAllowedHeader("*"); // 헤더
         config.addExposedHeader("Authorization");

@@ -1,6 +1,5 @@
-package com.main.web.siwa.ghost.website.dto;
+package com.main.web.siwa.member.comment.dto;
 
-import com.main.web.siwa.entity.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,12 +11,11 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class WebsiteCreateDto {
+public class CommentCreateDto {
     private Long id;
-    private String title;
-    private String url;
+    private String content;
     private Instant regDate;
 
-    // 카테고리 정보
-    private Category category;
+    private Long memberId;
+    private Long websiteId;
 }

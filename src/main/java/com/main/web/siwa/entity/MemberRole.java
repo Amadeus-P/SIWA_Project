@@ -2,8 +2,11 @@ package com.main.web.siwa.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "member_role")
 public class MemberRole {

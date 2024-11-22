@@ -9,8 +9,5 @@ public interface WebsiteService {
     WebsiteResponseDto getList(WebsiteSearchDto websiteSearchDto);
 
     WebsiteListDto getById(Long id);
-    WebsiteListDto create(WebsiteListDto websiteListDto);
-    WebsiteListDto update(WebsiteListDto websiteListDto);
-    void delete(Long id);
 
 }

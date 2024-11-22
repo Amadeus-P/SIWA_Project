@@ -5,6 +5,11 @@ import com.main.web.siwa.authentication.dto.SignupResponseDto;
 import com.main.web.siwa.entity.Member;
 import com.main.web.siwa.entity.MemberRole;
 import com.main.web.siwa.entity.Role;
+import com.main.web.siwa.entity.Website;
+import com.main.web.siwa.member.dto.MemberListDto;
+import com.main.web.siwa.member.dto.MemberResponseDto;
+import com.main.web.siwa.member.dto.MemberSearchDto;
+import com.main.web.siwa.member.website.dto.WebsiteListDto;
 import com.main.web.siwa.repository.MemberRepository;
 import com.main.web.siwa.repository.MemberRoleRepository;
 import com.main.web.siwa.repository.RoleRepository;
@@ -33,6 +38,18 @@ public class DefaultMemberService implements MemberService {
     }
 
 
+    @Override
+    public MemberResponseDto getList(MemberSearchDto memberSearchDto) {
+        return null;
+    }
+
+    @Override
+    public MemberListDto getById(Long memberId) {
+        Member member = memberRepository
+                .findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다. id = " + memberId));
+        return modelMapper.map(member, MemberListDto.class);
+    }
 
     @Override
     public SignupResponseDto create(SignupRequestDto requestDto) {
@@ -65,4 +82,39 @@ public class DefaultMemberService implements MemberService {
                 .build();
         return responseDto;
     }
+
+    @Override
+    public MemberListDto update(MemberListDto memberListDto) {
+        Member member = memberRepository
+                .findById(memberListDto.getId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 웹사이트입니다. id = " + memberListDto.getId()));
+
+        // 일괄 업데이트가 아닌 부분 업데이트 로직을 구현함
+        if(memberListDto.getUsername() != null)
+            member.setUsername(memberListDto.getUsername());
+        if(memberListDto.getProfileImage() != null)
+            member.setProfileImage(memberListDto.getProfileImage());
+        if(memberListDto.getProfileName() != null)
+            member.setProfileName(memberListDto.getProfileName());
+        if(memberListDto.getPassword() != null)
+            member.setPassword(memberListDto.getPassword());
+
+        memberRepository.save(member);
+
+        // 업데이트 된 웹사이트 가져오기
+        Member updateMember = memberRepository
+                .findById(memberListDto.getId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 웹사이트입니다. id = " + memberListDto.getId()));
+
+        return modelMapper.map(updateMember, MemberListDto.class);
+    }
+
+    @Override
+    public void delete(Long memberId) {
+        memberRepository.deleteById(memberId);
+    }
+
+
+
+
 }

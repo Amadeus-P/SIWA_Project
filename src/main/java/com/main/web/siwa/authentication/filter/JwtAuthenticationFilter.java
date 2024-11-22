@@ -82,6 +82,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                 new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
 
                         authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+                        // 이 필터는 세션에 담아주는 대신 (스레드가 실행 중일 때=)요청이 들어오면 SCH에 토큰을 저장하고 꺼내 씀(stateless)
+                        // 서버에 메모리를 사용하는 세션의 단점, 서버 간 공유를 분리하기 위한 분산(마이크로) 시스템에 적합함
                         SecurityContextHolder.getContext().setAuthentication(authToken);
                     }
                 }//

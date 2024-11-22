@@ -13,9 +13,8 @@ import java.util.List;
 @Builder
 public class WebsiteResponseDto {
 
-
-    private Long websiteTotalCount;
-    private Long websiteTotalPages;
+    private Long totalCount;
+    private Long totalPages;
     private Boolean nextPage;
     private Boolean prevPage;
     private List<WebsiteListDto> websiteListDtos;

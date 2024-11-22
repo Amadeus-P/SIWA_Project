@@ -1,10 +1,7 @@
 package com.main.web.siwa.member.website.controller;
 
-import com.main.web.siwa.entity.WebsiteImage;
-import com.main.web.siwa.member.website.dto.WebsiteCreateDto;
-import com.main.web.siwa.member.website.dto.WebsiteListDto;
-import com.main.web.siwa.member.website.dto.WebsiteResponseDto;
-import com.main.web.siwa.member.website.dto.WebsiteSearchDto;
+import com.main.web.siwa.authentication.util.GetAuthMemberId;
+import com.main.web.siwa.member.website.dto.*;
 import com.main.web.siwa.member.website.service.WebsiteService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -12,23 +9,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 @RestController("memberWebsiteController")
 @RequestMapping("member/websites")
 public class WebsiteController {
 
-    private WebsiteService websiteService;
+    private final WebsiteService websiteService;
 
     public WebsiteController(WebsiteService websiteService) {
         this.websiteService = websiteService;
     }
 
-    // GET + 검색
     @GetMapping
     public ResponseEntity<WebsiteResponseDto> getList(
             @ModelAttribute WebsiteSearchDto websiteSearchDto
@@ -36,49 +28,92 @@ public class WebsiteController {
         if(websiteSearchDto.getPage() == null || websiteSearchDto.getSize() < 1) {
             websiteSearchDto.setPage(1);
         }
+        System.out.println("컨트롤러 요청");
         WebsiteResponseDto responseDto = websiteService.getList(websiteSearchDto);
             return new ResponseEntity<>(responseDto, HttpStatus.OK); // 페이지 정보, 웹사이트 정보, 카테고리 정보
     }
     // GET + ID
-    @GetMapping("/{wid}")
+    @GetMapping("{websiteId}")
     public ResponseEntity<WebsiteListDto> getOne(
-            @PathVariable(value = "wid", required = true) Long websiteId
+            @PathVariable(value = "websiteId", required = true) Long websiteId
     ) {
         return new ResponseEntity<>(websiteService.getById(websiteId),HttpStatus.OK);
     }
 
-    @PostMapping("new")
+    @PostMapping
     public ResponseEntity<?> create(
             @ModelAttribute WebsiteCreateDto websiteCreateDto,
-            HttpServletRequest request,
-            @RequestParam("img")List<MultipartFile> images
-//            @RequestParam("memberId") Long memberId
+            @RequestParam("img")MultipartFile image
     ) {
         try {
-            websiteService.create(websiteCreateDto, images);
-            return ResponseEntity.status(HttpStatus.CREATED).body("웹사이트 등록 성공");
+            // JWT 인증필터에서 가져온 회원 아이디
+            GetAuthMemberId authenticatedId = new GetAuthMemberId();
+            Long memberId = authenticatedId.getAuthMemberId();
+            websiteCreateDto.setMemberId(memberId);
+
+            System.out.println("memberId: " + memberId);
+            System.out.println("memberId: " +  websiteCreateDto.getMemberId());
+            System.out.println("title: " +  websiteCreateDto.getTitle());
+            System.out.println("url: " + websiteCreateDto.getUrl());
+            System.out.println("categoryId: " + websiteCreateDto.getCategoryId());
+            System.out.println("Image: " + (image != null ? image.getOriginalFilename() : "No image"));
+
+            websiteService.create(websiteCreateDto, image);
+
+            // 클라이언트에게 응답할 땐 데이터 타입을 맞춰야한다.(JSON), 클라이언트와 같은 응답메세지로
+            return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("message", "웹사이트 등록 성공"));
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", e.getMessage()));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("웹사이트 등록 중 오류가 발생했습니다.");
+                    .body(Map.of("message", "웹사이트 등록 중 오류가 발생했습니다."));
         }
     }
 
-    @PutMapping("{wid}")
+    @PutMapping("{websiteId}")
     public ResponseEntity<WebsiteListDto> update(
             WebsiteListDto websiteListDto,
-            @PathVariable(value = "wid", required = true) Long websiteId
+            @RequestParam("img")MultipartFile newImage,
+            @PathVariable(value = "websiteId", required = true) Long websiteId
     ) {
         websiteListDto.setId(websiteId);
-        return new ResponseEntity<>(websiteService.update(websiteListDto), HttpStatus.OK);
+        return new ResponseEntity<>(websiteService.update(websiteListDto, newImage), HttpStatus.OK);
     }
-    
+    @PostMapping("{websiteId}/actions")
+    public ResponseEntity<?> like(
+            @PathVariable(value = "websiteId", required = true) Long websiteId,
+            @RequestBody InteractionDto interactionDto,
+            HttpServletRequest request
+    ) {
+        GetAuthMemberId authenticatedId = new GetAuthMemberId();
+        Long memberId = authenticatedId.getAuthMemberId();
+
+        interactionDto.setMemberId(memberId);
+        interactionDto.setWebsiteId(websiteId);
+
+        websiteService.interaction(interactionDto);
+
+        return ResponseEntity.ok(Map.of("message", "요청이 전달되었습니다."));
+    }
+    @DeleteMapping("/{websiteId}/recommend")
+    public ResponseEntity<?> cancelRecommendation(
+            @PathVariable("websiteId") Long websiteId,
+            HttpServletRequest request
+    ) {
+        // JWT 인증에서 사용자 ID 가져오기
+        GetAuthMemberId authenticatedId = new GetAuthMemberId();
+        Long memberId = authenticatedId.getAuthMemberId();
+
+//        websiteService.cancelRecommendation(websiteId, memberId);
+
+        return ResponseEntity.ok(Map.of("message", "취소 요청이 전달되었습니다."));
+    }
+
     // 웹 사이트 1개 삭제(무조건 wid로 개별 삭제할 것)
-    @DeleteMapping("{wid}")
+    @DeleteMapping("{websiteId}")
     public ResponseEntity<String> delete(
-            @PathVariable(value = "wid", required = true) Long websiteId
+            @PathVariable(value = "websiteId", required = true) Long websiteId
     ) {
         websiteService.delete(websiteId);
         return new ResponseEntity<>("웹사이트가 삭제되었습니다.", HttpStatus.OK);

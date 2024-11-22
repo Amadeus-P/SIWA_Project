@@ -15,9 +15,9 @@ import java.time.Instant;
 @Builder
 public class MemberListDto {
     private Long id;
-    private String email;
+    private String username;
+    private String password;
     private String profileImage;
     private String profileName;
     private Instant regDate;
-
 }

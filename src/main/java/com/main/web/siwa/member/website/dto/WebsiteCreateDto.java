@@ -1,7 +1,6 @@
 package com.main.web.siwa.member.website.dto;
 
-import com.main.web.siwa.entity.Category;
-import com.main.web.siwa.entity.WebsiteImage;
+import com.main.web.siwa.ghost.websiteImage.dto.WebsiteImageListDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +19,6 @@ public class WebsiteCreateDto {
     private String url;
     private Instant regDate;
 
-    List<WebsiteImage> images;
-    // 카테고리 정보
-    private Category category;
+    private Long memberId; // 서버에서 인증된 회원 아이디를 넣음(jwt 인증필터, SCH에서 꺼내야함)
+    private Long categoryId;
 }
