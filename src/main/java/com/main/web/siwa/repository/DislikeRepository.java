@@ -5,9 +5,11 @@ import com.main.web.siwa.entity.Member;
 import com.main.web.siwa.entity.Website;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface DislikeRepository extends JpaRepository<Dislike, Long> {
     Optional<Dislike> findByWebsiteAndMember(Website website, Member member);
-    boolean existsByWebsiteAndMember(Member member, Website website);
+    boolean existsByWebsiteIdAndMemberId(Long memberId, Long websiteId);
+    List<Dislike> findAllByMemberId(Long memberId);
 }

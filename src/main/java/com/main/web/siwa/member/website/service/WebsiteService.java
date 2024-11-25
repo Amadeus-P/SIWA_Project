@@ -12,7 +12,9 @@ public interface WebsiteService {
     WebsiteListDto update(WebsiteListDto websiteListDto, MultipartFile newImage);
     void delete(Long id);
 
-    void interaction(InteractionDto interactionDto);
+    void setStatusAction(ActionDto actionDto);
+
+    ActionResponseDto getStatusAction(Long memberId);
 
 //    void
 }

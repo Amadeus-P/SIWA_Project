@@ -3,7 +3,6 @@ package com.main.web.siwa.member.website.controller;
 import com.main.web.siwa.authentication.util.GetAuthMemberId;
 import com.main.web.siwa.member.website.dto.*;
 import com.main.web.siwa.member.website.service.WebsiteService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +27,14 @@ public class WebsiteController {
         if(websiteSearchDto.getPage() == null || websiteSearchDto.getSize() < 1) {
             websiteSearchDto.setPage(1);
         }
-        System.out.println("컨트롤러 요청");
+        if(websiteSearchDto.getKeyWord() == null) {
+            websiteSearchDto.setKeyWord("");
+        }
+
+        System.out.println("==============조회 검색 컨트롤러 요청");
+        System.out.println("websiteSearchDto.getPage()" + websiteSearchDto.getPage());
+        System.out.println("검색 키워드" + websiteSearchDto.getKeyWord());
+
         WebsiteResponseDto responseDto = websiteService.getList(websiteSearchDto);
             return new ResponseEntity<>(responseDto, HttpStatus.OK); // 페이지 정보, 웹사이트 정보, 카테고리 정보
     }
@@ -80,34 +86,45 @@ public class WebsiteController {
         websiteListDto.setId(websiteId);
         return new ResponseEntity<>(websiteService.update(websiteListDto, newImage), HttpStatus.OK);
     }
-    @PostMapping("{websiteId}/actions")
-    public ResponseEntity<?> like(
-            @PathVariable(value = "websiteId", required = true) Long websiteId,
-            @RequestBody InteractionDto interactionDto,
-            HttpServletRequest request
+    @GetMapping("/actions")
+    public ResponseEntity<?> getStatusAction(
+            @RequestParam("memberId") Long memberId
     ) {
-        GetAuthMemberId authenticatedId = new GetAuthMemberId();
-        Long memberId = authenticatedId.getAuthMemberId();
-
-        interactionDto.setMemberId(memberId);
-        interactionDto.setWebsiteId(websiteId);
-
-        websiteService.interaction(interactionDto);
-
-        return ResponseEntity.ok(Map.of("message", "요청이 전달되었습니다."));
+        try {
+            // 서비스 레이어 호출
+            ActionResponseDto responseDto = websiteService.getStatusAction(memberId);
+            return ResponseEntity.ok(responseDto); // 상태 반환
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("message", "상태 확인 중 오류가 발생했습니다."));
+        }
     }
-    @DeleteMapping("/{websiteId}/recommend")
-    public ResponseEntity<?> cancelRecommendation(
-            @PathVariable("websiteId") Long websiteId,
-            HttpServletRequest request
+
+    @PostMapping("/actions")
+    public ResponseEntity<?> setStatusAction(
+            @RequestBody ActionDto actionDto
     ) {
-        // JWT 인증에서 사용자 ID 가져오기
-        GetAuthMemberId authenticatedId = new GetAuthMemberId();
-        Long memberId = authenticatedId.getAuthMemberId();
+        try {
+            GetAuthMemberId authenticatedId = new GetAuthMemberId();
+            Long memberId = authenticatedId.getAuthMemberId();
 
-//        websiteService.cancelRecommendation(websiteId, memberId);
+            System.out.println("actionDto.getWebsiteId() " + actionDto.getWebsiteId());
+            System.out.println("actionDto.getMemberId() " + actionDto.getMemberId());
+            System.out.println("actionDto.getAction() " + actionDto.getAction());
+            System.out.println("actionDto.getIsAdded() " + actionDto.getIsAdded());
 
-        return ResponseEntity.ok(Map.of("message", "취소 요청이 전달되었습니다."));
+            actionDto.setMemberId(memberId);
+            websiteService.setStatusAction(actionDto);
+            String message = actionDto.getIsAdded() ? "추가되었습니다." : "취소되었습니다.";
+            return ResponseEntity.ok(Map.of("message", message));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("message", "상호작용 처리 중 오류가 발생했습니다."));
+        }
     }
 
     // 웹 사이트 1개 삭제(무조건 wid로 개별 삭제할 것)

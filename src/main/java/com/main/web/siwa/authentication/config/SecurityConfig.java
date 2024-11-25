@@ -66,7 +66,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         authorizeRequests -> authorizeRequests
                                 .requestMatchers("/admin/**").hasRole("ADMIN") // hasAuthority("ADMIN")
-                                .requestMatchers("/member/**").hasAnyRole("MEMBER", "ADMIN")
+                                // /member 이후는 어떻게 권한을 줄지 고민
+                                .requestMatchers("/member/websites/**").hasAnyRole("MEMBER", "ADMIN")
 //                                .requestMatchers("/auth/**").permitAll()
                                 .anyRequest().permitAll()
                 ).sessionManagement(

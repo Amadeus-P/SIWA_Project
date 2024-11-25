@@ -7,6 +7,7 @@ import com.main.web.siwa.authentication.dto.SignupResponseDto;
 import com.main.web.siwa.authentication.entity.SiwaUserDetails;
 import com.main.web.siwa.authentication.util.JwtUtil;
 import com.main.web.siwa.entity.Member;
+import com.main.web.siwa.error.UserAlreadyExistsException;
 import com.main.web.siwa.member.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,9 +45,14 @@ public class AuthController {
         try {
             SignupResponseDto responseDto = memberService.create(requestDto);
             return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
+        } catch (UserAlreadyExistsException e) {
+            // 이미 존재하는 회원일 경우 409 Conflict 반환
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         } catch (IllegalArgumentException e) {
+            // 기타 에러 400
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }catch (Exception e) {
+            // 500
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("회원가입중 오류가 발생했습니다.");

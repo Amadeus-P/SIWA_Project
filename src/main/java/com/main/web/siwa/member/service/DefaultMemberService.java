@@ -54,9 +54,9 @@ public class DefaultMemberService implements MemberService {
     @Override
     public SignupResponseDto create(SignupRequestDto requestDto) {
         // 중복 검사
-        if(memberRepository.findByUsername(requestDto.getUsername()) != null)
-            throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
-
+        if (memberRepository.existsByUsername(requestDto.getUsername())) {
+            throw new IllegalArgumentException("이미 존재하는 사용자입니다: " + requestDto.getUsername());
+        }
         // 비번 암호화
         String encodedPassword = passwordEncoder.encode(requestDto.getPassword());
         requestDto.setPassword(encodedPassword);
@@ -71,6 +71,9 @@ public class DefaultMemberService implements MemberService {
         MemberRole memberRole = new MemberRole();
         memberRole.setMember(createdMember);
         memberRole.setRole(role);
+
+        System.out.println("memberRole.getMember()" + memberRole.getMember());
+        System.out.println("memberRole.getRole()" + memberRole.getRole());
 
         memberRoleRepository.save(memberRole);
 

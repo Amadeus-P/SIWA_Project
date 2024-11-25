@@ -5,12 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class InteractionDto {
-    private Long memberId;
-    private Long websiteId;
-    private String action;
+public class ActionResponseDto {
+    List<ActionDto> actionDtos;
 }

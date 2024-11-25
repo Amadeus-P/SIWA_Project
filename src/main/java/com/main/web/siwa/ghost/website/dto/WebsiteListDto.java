@@ -1,7 +1,9 @@
 package com.main.web.siwa.ghost.website.dto;
 
+import com.main.web.siwa.admin.category.dto.CategoryListDto;
 import com.main.web.siwa.entity.Category;
 import com.main.web.siwa.ghost.websiteImage.dto.WebsiteImageListDto;
+import com.main.web.siwa.member.dto.MemberListDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,7 +26,8 @@ public class WebsiteListDto {
     private Instant regDate;
 
     // 카테고리 정보
-    private Category category;
+    private MemberListDto member;
+    private CategoryListDto category;
     private List<WebsiteImageListDto> images;
 
 //    // 좋아요, 추천, 비추천
