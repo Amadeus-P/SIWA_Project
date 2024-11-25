@@ -1,4 +1,4 @@
-package com.main.web.siwa.usecase.admin.category.dto;
+package com.main.web.siwa.dto.admin.category;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

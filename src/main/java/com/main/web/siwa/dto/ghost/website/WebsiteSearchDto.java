@@ -1,4 +1,4 @@
-package com.main.web.siwa.usecase.ghost.website.dto;
+package com.main.web.siwa.dto.ghost.website;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

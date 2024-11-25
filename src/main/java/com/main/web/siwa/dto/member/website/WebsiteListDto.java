@@ -1,8 +1,8 @@
-package com.main.web.siwa.usecase.member.website.dto;
+package com.main.web.siwa.dto.member.website;
 
-import com.main.web.siwa.usecase.admin.category.dto.CategoryListDto;
+import com.main.web.siwa.dto.admin.category.CategoryListDto;
 import com.main.web.siwa.usecase.ghost.websiteImage.dto.WebsiteImageListDto;
-import com.main.web.siwa.usecase.member.dto.MemberListDto;
+import com.main.web.siwa.dto.member.MemberListDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

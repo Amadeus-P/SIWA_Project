@@ -1,7 +1,6 @@
-package com.main.web.siwa.usecase.member.dto;
+package com.main.web.siwa.dto.member;
 
 
-import com.main.web.siwa.entity.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

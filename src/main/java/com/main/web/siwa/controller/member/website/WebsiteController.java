@@ -1,8 +1,8 @@
-package com.main.web.siwa.usecase.member.website.controller;
+package com.main.web.siwa.controller.member.website;
 
-import com.main.web.siwa.authentication.util.GetAuthMemberId;
-import com.main.web.siwa.usecase.member.website.dto.*;
-import com.main.web.siwa.usecase.member.website.service.WebsiteService;
+import com.main.web.siwa.utility.GetAuthMemberId;
+import com.main.web.siwa.dto.member.website.*;
+import com.main.web.siwa.service.member.website.WebsiteService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,11 +1,9 @@
-package com.main.web.siwa.usecase.member.website.dto;
+package com.main.web.siwa.dto.member.website;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @NoArgsConstructor

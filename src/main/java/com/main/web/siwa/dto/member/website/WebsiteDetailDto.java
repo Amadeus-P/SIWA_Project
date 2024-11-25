@@ -1,4 +1,4 @@
-package com.main.web.siwa.usecase.member.website.dto;
+package com.main.web.siwa.dto.member.website;
 
 import com.main.web.siwa.entity.Category;
 import lombok.AllArgsConstructor;

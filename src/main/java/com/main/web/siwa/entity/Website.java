@@ -2,11 +2,8 @@ package com.main.web.siwa.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.main.web.siwa.ghost.websiteImage.dto.WebsiteImageListDto;
-import com.main.web.siwa.member.website.dto.WebsiteListDto;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
 import java.util.ArrayList;

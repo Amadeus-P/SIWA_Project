@@ -1,10 +1,10 @@
-package com.main.web.siwa.usecase.member.comment.controller;
+package com.main.web.siwa.controller.member.commment;
 
-import com.main.web.siwa.authentication.util.GetAuthMemberId;
-import com.main.web.siwa.usecase.member.comment.dto.CommentCreateDto;
-import com.main.web.siwa.usecase.member.comment.dto.CommentListDto;
-import com.main.web.siwa.usecase.member.comment.dto.CommentResponseDto;
-import com.main.web.siwa.usecase.member.comment.service.CommentService;
+import com.main.web.siwa.utility.GetAuthMemberId;
+import com.main.web.siwa.dto.member.commment.CommentCreateDto;
+import com.main.web.siwa.dto.member.commment.CommentListDto;
+import com.main.web.siwa.dto.member.commment.CommentResponseDto;
+import com.main.web.siwa.service.member.commment.CommentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

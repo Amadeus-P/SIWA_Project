@@ -1,7 +1,7 @@
-package com.main.web.siwa.usecase.admin.category.controller;
+package com.main.web.siwa.controller.admin.category;
 
-import com.main.web.siwa.usecase.admin.category.dto.CategoryResponseDto;
-import com.main.web.siwa.usecase.admin.category.service.CategoryService;
+import com.main.web.siwa.dto.admin.category.CategoryResponseDto;
+import com.main.web.siwa.service.admin.category.CategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

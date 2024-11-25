@@ -1,9 +1,9 @@
-package com.main.web.siwa.usecase.ghost.website.controller;
+package com.main.web.siwa.controller.ghost.website;
 
-import com.main.web.siwa.usecase.ghost.website.dto.WebsiteListDto;
-import com.main.web.siwa.usecase.ghost.website.dto.WebsiteResponseDto;
-import com.main.web.siwa.usecase.ghost.website.dto.WebsiteSearchDto;
-import com.main.web.siwa.usecase.ghost.website.service.WebsiteService;
+import com.main.web.siwa.dto.ghost.website.WebsiteListDto;
+import com.main.web.siwa.dto.ghost.website.WebsiteResponseDto;
+import com.main.web.siwa.dto.ghost.website.WebsiteSearchDto;
+import com.main.web.siwa.service.ghost.website.WebsiteService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

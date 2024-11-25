@@ -1,8 +1,8 @@
-package com.main.web.siwa.authentication.config;
+package com.main.web.siwa.config;
 
-import com.main.web.siwa.authentication.serivce.SiwaUserDetailsService;
-import com.main.web.siwa.authentication.filter.JwtAuthenticationFilter;
-import com.main.web.siwa.authentication.util.JwtUtil;
+import com.main.web.siwa.service.auth.SiwaUserDetailsService;
+import com.main.web.siwa.filter.JwtAuthenticationFilter;
+import com.main.web.siwa.utility.JwtUtil;
 import com.main.web.siwa.repository.MemberRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

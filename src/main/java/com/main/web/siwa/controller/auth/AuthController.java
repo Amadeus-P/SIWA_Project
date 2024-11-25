@@ -1,13 +1,13 @@
-package com.main.web.siwa.authentication.controller;
+package com.main.web.siwa.controller.auth;
 
-import com.main.web.siwa.authentication.dto.SigninRequestDto;
-import com.main.web.siwa.authentication.dto.SigninResponseDto;
-import com.main.web.siwa.authentication.dto.SignupRequestDto;
-import com.main.web.siwa.authentication.dto.SignupResponseDto;
-import com.main.web.siwa.authentication.entity.SiwaUserDetails;
-import com.main.web.siwa.authentication.util.JwtUtil;
+import com.main.web.siwa.dto.auth.SigninRequestDto;
+import com.main.web.siwa.dto.auth.SigninResponseDto;
+import com.main.web.siwa.dto.auth.SignupRequestDto;
+import com.main.web.siwa.dto.auth.SignupResponseDto;
+import com.main.web.siwa.entity.SiwaUserDetails;
+import com.main.web.siwa.utility.JwtUtil;
 import com.main.web.siwa.error.UserAlreadyExistsException;
-import com.main.web.siwa.usecase.member.service.MemberService;
+import com.main.web.siwa.service.member.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

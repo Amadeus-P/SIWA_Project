@@ -1,9 +1,9 @@
-package com.main.web.siwa.usecase.member.controller;
+package com.main.web.siwa.controller.member;
 
-import com.main.web.siwa.usecase.member.dto.MemberListDto;
-import com.main.web.siwa.usecase.member.dto.MemberResponseDto;
-import com.main.web.siwa.usecase.member.dto.MemberSearchDto;
-import com.main.web.siwa.usecase.member.service.MemberService;
+import com.main.web.siwa.dto.member.MemberListDto;
+import com.main.web.siwa.dto.member.MemberResponseDto;
+import com.main.web.siwa.dto.member.MemberSearchDto;
+import com.main.web.siwa.service.member.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

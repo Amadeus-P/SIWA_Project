@@ -1,4 +1,4 @@
-package com.main.web.siwa.usecase.member.comment.dto;
+package com.main.web.siwa.dto.member.commment;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

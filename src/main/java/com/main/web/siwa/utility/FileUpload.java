@@ -1,4 +1,4 @@
-package com.main.web.siwa.usecase.member.website.util;
+package com.main.web.siwa.utility;
 
 
 import org.springframework.web.multipart.MultipartFile;
