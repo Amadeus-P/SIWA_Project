@@ -154,21 +154,22 @@ const submitHandler = async (e) => {
                     <section class="" style="margin-top: 50px; display: flex; gap: 10px; flex-direction: column;">
                         <h2>사이트 정보 입력</h2>
                         <label class="">
-                            <span>URL</span>
+                            <span>대표 URL</span>
                             <strong><span style="color: var(--accent-color-1);" aria-label="필수입력">*</span></strong>
-                            <input type="url" id="url-prefix" name="url" pattern="https:(//)?.*" autofocus required
+                            <input type="url" id="url-prefix" name="url" pattern="https:(//)?.*"placeholder="https://"  autofocus required
                                 v-model="websiteForm.url" />
                         </label>
                         <label class="">
-                            <span>타이틀</span>
+                            <span>홈페이지 타이틀</span>
                             <strong><span style="color: var(--accent-color-1);" aria-label="필수입력">*</span></strong>
-                            <input type="text" name="title" required v-model="websiteForm.title" />
+                            <input type="text" name="title" placeholder="" required 
+                            v-model="websiteForm.title" />
                         </label>
                         <label>
                             <span>이미지 업로드</span>
                             <span
                                 style="font-size: var(--font-size-2); font-weight: var(--font-weight-6);  color: var(--base-color-3);">
-                                웹사이트와관련된 이미지나 스크린샷을 올려주세요.
+                                웹사이트와관련된 이미지나 스크린샷을 올려주세요. 16: 9 비율 최대 1장 업로드
                             </span>
                             <input type="file" @change="handleFileChange" />
                         </label>
@@ -235,7 +236,6 @@ const submitHandler = async (e) => {
         span{
             font-size: var(--font-size-4);
             font-weight: var(--font-weight-6);
-            color: var(--base-color-black);
         }
         label{
             display: flex;

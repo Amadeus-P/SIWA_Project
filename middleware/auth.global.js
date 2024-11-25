@@ -6,7 +6,7 @@ export default defineNuxtRouteMiddleware((to, from)=>{
       if (to.path === '/' && !userDetails.token.value) {
         console.log("to.path", to.path);
         return navigateTo('/websites')
-      }
+      } 
       if (to.path === '/' && userDetails.token.value) {
         console.log("to.path", to.path);
         return navigateTo('/member/websites')

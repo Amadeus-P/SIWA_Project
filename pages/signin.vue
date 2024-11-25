@@ -120,12 +120,12 @@
                     <button class="btn btn-submit btn:round" style="">로그인하기</button>
                 </div>
             </form>
-            <div style="position: relative; border: none; border-top: 1px solid var(--base-color-3); margin: 50px 0 10px 0; width: 100%;">
+            <!-- <div style="position: relative; border: none; border-top: 1px solid var(--base-color-3); margin: 50px 0 10px 0; width: 100%;">
                 <div style="position: absolute; top: -0.7em; left: 50%; transform: translateX(-50%); background: white; padding: 0 5px;">다른 계정으로 로그인</div>
             </div>
             <div class="btn btn-submit btn:round" style="background-color: var(--base-color-white); color: var(--base-color-black); margin-top: 20px;">
                 <NuxtLink @click.prevent="googleLoginHandler" class="submit-btn btn-style:round" style="font-size: var(--font-size-3); font-weight: var(--font-weight-6);" to="">구글 로그인</NuxtLink>
-            </div>
+            </div> -->
             <div style="display: flex; justify-content: center; margin-top: 20px; width: 100%;">
                 <NuxtLink class="" style="font-size: var(--font-size-3); font-weight: var(--font-weight-6); cursor: pointer;" to="/signup">회원이 아니라면</NuxtLink>
             </div>
