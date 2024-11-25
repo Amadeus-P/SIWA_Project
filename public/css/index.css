@@ -21,7 +21,7 @@
 
             &:has(input:checked),
             &.activeMain {/* .activeMain: 동적 스타일을 위한 클래스 */
-                color: var(--base-color-2);
+                color: var(--main-color-1);
                 transition: 0.3s;
             }
             &:has(input:checked):is(
@@ -50,7 +50,7 @@
                 .icon\:community,
                 .icon\:pet
             )::before{
-                background-color: var(--base-color-2);
+                background-color: var(--base-color-1);
                 transition: 0.3s;
             }
         }
@@ -114,12 +114,32 @@
         }
     }
 }
-.icon\:like{
+.icon\:bookmark-add{
     position: absolute; top: 5px; right: 5px;
     margin-left: auto;
-    font-size: var(--font-size-3); 
-    font-weight: var(--font-weight-4);
     color: var(--base-color-1);
+}
+.icon\:bookmark-add::before{
+    --icon-width: 34px;
+    --icon-height: 34px;
+    background-color: var(--base-color-1);
+    width: var(--icon-width);
+    height: var(--icon-height);
+    mask-size: var(--icon-width) var(--icon-height);
+}
+
+.icon\:bookmark-added{
+    position: absolute; top: 5px; right: 5px;
+    margin-left: auto;
+    color: var(--base-color-1);
+}
+.icon\:bookmark-added::before{
+    --icon-width: 34px;
+    --icon-height: 34px;
+    background-color: var(--base-color-1);
+    width: var(--icon-width);
+    height: var(--icon-height);
+    mask-size: var(--icon-width) var(--icon-height);
 }
 
 .website-content{
@@ -129,21 +149,22 @@
     gap: 2px; 
     flex-direction: column; 
     padding: 5px;
+    background-color: var(--base-color-5);
 }
 
 
-@media screen and (width <= 768px){
+/* @media screen and (width <= 768px){
     .website-card   {
         width: calc(100%);
     }
-}
-@media screen and (768px < width <= 1096px){
+} */
+@media screen {
     .website-card{
-        width: calc(50%);
+        width: calc(50% - 20px);
     }
 }
 @media screen and (1096px < width) {
     .website-card{
-        width: calc(25%);
+        width: calc(25% - 20px);
     }
 }

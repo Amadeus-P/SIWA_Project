@@ -2,9 +2,6 @@
 .icon\:category-small::before{
     mask-image: url("../img/icon/tag.svg"); 
 }
-.icon\:like-small::before{
-    mask-image: url("../img/icon/like.svg");
-}
 .icon\:views-small::before{
     mask-image: url("../img/icon/views.svg");
 }
@@ -14,11 +11,17 @@
 .icon\:more-small::before{
     mask-image: url("../img/icon/more_vert.svg");
 }
-.icon\:recommended-small::before{
+.icon\:like-small::before{
     mask-image: url("../img/icon/thumb_up.svg");
+}
+.icon\:liked-small::before{
+    mask-image: url("../img/icon/liked.svg");
 }
 .icon\:dislike-small::before{
     mask-image: url("../img/icon/thumb_down.svg"); 
+}
+.icon\:disliked-small::before{
+    mask-image: url("../img/icon/disliked.svg"); 
 }
 .icon\:comment-small::before{
     mask-image: url("../img/icon/comment.svg");
@@ -26,7 +29,7 @@
 .icon\:arrow-down-small::before{
     mask-image: url("../img/icon/arrow_down.svg"); 
 }
-.icon\:arrow-foward-small::before{
+.icon\:arrow-forward-small::before{
     mask-image: url("../img/icon/arrow_forward.svg");
 }
 .icon\:copy-small::before{
@@ -34,6 +37,12 @@
 }
 
 /* 아이콘 경로 */
+.icon\:bookmark-add::before{
+    mask-image: url('../img/icon/bookmark_add.svg');
+}
+.icon\:bookmark-added::before{
+    mask-image: url('../img/icon/bookmark_added.svg');
+}
 .icon\:search::before{
     mask-image: url("../img/icon/search.svg");
 }
@@ -55,9 +64,6 @@
 .icon\:category::before{
     mask-image: url("../img/icon/tag.svg");
 }
-.icon\:like::before{
-    mask-image: url("../img/icon/like.svg");
-}
 .icon\:views::before{
     mask-image: url("../img/icon/views.svg");
 }
@@ -76,15 +82,24 @@
 .icon\:arrow-back::before{
     mask-image: url("../img/icon/arrow_back.svg");
 }
-.icon\:arrow-foward::before{
+.icon\:arrow-forward::before{
     mask-image: url("../img/icon/arrow_forward.svg");
 }
+.icon\:goback::before{
+    mask-image: url("../img/icon/goback.svg");
+}
 
-.icon\:recommended::before{
+.icon\:like::before{
     mask-image: url("../img/icon/thumb_up.svg");
+}
+.icon\:liked::before{
+    mask-image: url("../img/icon/liked.svg");
 }
 .icon\:dislike::before{
     mask-image: url("../img/icon/thumb_down.svg");
+}
+.icon\:disliked::before{
+    mask-image: url("../img/icon/disliked.svg");
 }
 .icon\:comment::before{
     mask-image: url("../img/icon/comment.svg");
@@ -106,20 +121,24 @@
         .icon\:add,
         .icon\:profile,
         .icon\:category,
-        .icon\:like,
         .icon\:views,
         .icon\:close,
         .icon\:menu,
         .icon\:settings,
         .icon\:more,
-        .icon\:recommended,
+        .icon\:like,
+        .icon\:liked,
         .icon\:dislike,
+        .icon\:disliked,
         .icon\:comment,
         .icon\:arrow-back,
+        .icon\:goback::before,
         .icon\:arrow-down,
-        .icon\:arrow-foward,
+        .icon\:arrow-forward,
         .icon\:notification,
-        .icon\:copy
+        .icon\:copy,
+        .icon\:bookmark-add,
+        .icon\:bookmark-added
         )::before{
     content: "";
 
@@ -135,15 +154,14 @@
 /* 작은 아이콘 공통 스타일 */
 :is(
         .icon\:category-small,
-        .icon\:like-small,
         .icon\:views-small,
         .icon\:close-small,
         .icon\:more-small,
-        .icon\:recommended-small,
+        .icon\:like-small,
         .icon\:dislike-small,
         .icon\:comment-small,
         .icon\:arrow-down-small,
-        .icon\:arrow-foward-small,
+        .icon\:arrow-forward-small,
         .icon\:copy-small
         )::before{
             
@@ -181,9 +199,6 @@
     margin: 0;
     padding: 0;
 }
-.icon\:like::before{
-    background-color: var(--icon\:like-color);
-}
 
 :is(
         .icon\:home,
@@ -204,14 +219,13 @@
         .icon\:arrow-back-small,
         .icon\:close-small,
         .icon\:category-small,
-        .icon\:like-small,
         .icon\:views-small,
         .icon\:more-small,
-        .icon\:recommended-small,
+        .icon\:like-small,
         .icon\:dislike-small,
         .icon\:comment-small,
         .icon\:arrow-down-small,
-        .icon\:arrow-foward-small,
+        .icon\:arrow-forward-small,
         .icon\:notification-small,
         .icon\:copy-small
         ) {
@@ -224,21 +238,21 @@
 :is(
         .icon\:menu,
         .icon\:settings,
-        .icon\:arrow-back,
+        .icon\:goback,
         .icon\:close,
-
+        
         .icon\:category,
-        .icon\:like,
         .icon\:views,
-        .icon\:more-small,
-        .icon\:more-big,
-        .icon\:recommended,
+        .icon\:like,
         .icon\:dislike,
         .icon\:comment,
         .icon\:arrow-down,
-        .icon\:arrow-foward,
+        .icon\:arrow-forward,
+        .icon\:arrow-back,
         .icon\:notification,
-        .icon\:copy
+        .icon\:copy,
+        .icon\:bookmark-add,
+        .icon\:bookmark-added
         ){
     display: flex;
     align-items: center;
@@ -251,10 +265,9 @@
         .icon\:arrow-back-big,
         .icon\:close-big,
         .icon\:category-big,
-        .icon\:like-big,
         .icon\:views-big,
         .icon\:more-big,
-        .icon\:recommended-big,
+        .icon\:like-big,
         .icon\:dislike-big,
         .icon\:comment-big,
         .icon\:arrow-down-big,
@@ -362,27 +375,27 @@
 /* 아이콘 폰트 */
 .icon\:font-1{
     font-size:var(--font-size-1);
-    color: var(--base-color-3);
+    color: var(--base-color-1);
     text-align: center;
 }
 .icon\:font-2{
     font-size:var(--font-size-2);
-    color: var(--base-color-3);
+    color: var(--base-color-1);
     text-align: center;
 }
 .icon\:font-3{
     font-size:var(--font-size-3);
-    color: var(--base-color-3);
+    color: var(--base-color-1);
     text-align: center;
 }
 .icon\:font-4{
     font-size:var(--font-size-4);
-    color: var(--base-color-3);
+    color: var(--base-color-1);
     text-align: center;
 }
 .icon\:font-5{
     font-size:var(--font-size-5);
-    color: var(--base-color-3);
+    color: var(--base-color-1);
     text-align: center;
 }
 /* 아이콘의 텍스트 위치 */

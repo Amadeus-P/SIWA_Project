@@ -3,17 +3,27 @@
     const username = ref("");
     const password = ref("");
     const passwordCheck = ref("");
+    const errorMessage = ref("");
 
-    watchEffect(()=>{
-        if(password.value !== passwordCheck.value){
-            console.log("비밀번호가 일치하지 않습니다.");
-            return;
-        }
-    });
+    // 비밀번호 일치 여부를 확인하는 computed 속성
+    const passwordMatch = computed(() => password.value === passwordCheck.value);
+
+    // watchEffect(()=>{
+    //     if(password.value !== passwordCheck.value){
+    //         console.log("비밀번호가 일치하지 않습니다.");
+    //         return;
+    //     }
+    // });
 
     const signupHandler = async() => {
+
+        if (!passwordMatch.value) {
+            errorMessage.value = "비밀번호가 일치하지 않습니다.";
+            return;
+        }
+
         try {
-            let response = await useDataFetch("auth/signup", {
+            let response = await useCSRFetch("auth/signup", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -26,10 +36,19 @@
             if(response.status === 201){
                 // 회원가입 성공 후 로그인 페이지로 이동
                 console.log("회원가입 성공");
-                const returnURL = useRoute().query.returnURL || "/";
-                return navigateTo(returnURL);
+                return navigateTo('/signin');
+            } else if (response.status === 409) {
+                // 이미 존재하는 회원일 경우
+                errorMessage.value = "이미 존재하는 이메일입니다.";
+            }else if (response.status === 400) {
+                // 400 Bad Request일 경우 백엔드에서 전달한 에러 메시지를 표시
+                errorMessage.value = response._data || "잘못된 요청입니다.";
+            } else if (response.status === 500) {
+                // 서버 내부 오류
+                errorMessage.value = "서버에 문제가 발생했습니다. 잠시 후 다시 시도해주세요.";
             } else{
                 console.log("회원가입 성공: ", response);
+                return navigateTo("/signin");
             }
         } catch(error){
             console.log(error);
@@ -138,7 +157,7 @@ form{
             border: 1px solid var(--accent\:green);
         }
         &::after{
-                content: "사용 가능한 이메일입니다.";
+                content: "";
                 display: flex;
                 height: auto;
                 color: var(--accent\:green);
@@ -151,7 +170,7 @@ form{
                 border: 1px solid var(--accent\:green);
             }
             &::after{
-                    content: "적합한 비밀번호입니다.";
+                    content: "";
                     display: flex;
                     height: auto;
                     color: var(--accent\:green);
@@ -191,7 +210,7 @@ form{
             border: 1px solid var(--accent\:green);
         }
         &::after{
-            content: "비밀번호가 일치합니다";
+            content: "";
             display: flex;
             height: auto;
             color: var(--accent\:green);

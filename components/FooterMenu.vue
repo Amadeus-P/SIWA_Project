@@ -5,8 +5,6 @@
             default: '/'  // 기본값은 루트 경로
         }
     });
-
-    const userDetails = useUserDetails();
 </script>
 
 <template>
@@ -20,19 +18,17 @@
                     </NuxtLink>
                 </li>
                 <li>
-                    <NuxtLink v-if="userDetails.isGhost()" to="signin" class="icon:add icon:text-bottom icon:font-1" >
+                    <!-- 미들웨어에서 설정한 경로라면 알아서 미들웨어에서 가로채니까 굳이 v-if로 로그인 확인 하는거 아님  -->
+                    <!-- <NuxtLink v-if="userDetails.isGhost()" to="/signin" class="icon:add icon:text-bottom icon:font-1" >
                         <span class="">사이트 등록</span>
-                    </NuxtLink>
-                    <NuxtLink v-else to="member/new" class="icon:add icon:text-bottom icon:font-1" >
+                    </NuxtLink> -->
+                    <NuxtLink to="/member/new" class="icon:add icon:text-bottom icon:font-1" >
                         <span class="">사이트 등록</span>
                     </NuxtLink>
                     
                 </li>
                 <li>
-                    <NuxtLink v-if="userDetails.isGhost()" to="signin" class="icon:profile icon:text-bottom icon:font-1">
-                        <span>내 페이지</span>
-                    </NuxtLink>
-                    <NuxtLink v-else to="member/mypage" class="icon:profile icon:text-bottom icon:font-1">
+                    <NuxtLink to="/member/mypage/" class="icon:profile icon:text-bottom icon:font-1">
                         <span>내 페이지</span>
                     </NuxtLink>
                 </li>

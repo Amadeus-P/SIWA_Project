@@ -6,19 +6,22 @@
     const username = ref("");
     const password = ref("");
 
+    // 여기서 query가 담겨져 와야함(쿼리 스트링인 returnURL을 담아와야하기 때문에)
+    const query = useRoute();
+    const userDetails = useUserDetails();
+
         // 비밀번호 숨기기/보이기
     const isShowPassword = ref(false);
     const showPassword = () => {
         isShowPassword.value = !isShowPassword.value;
     };
 
-    const userDetails = useUserDetails();
 
     const localLoginHandler = async() => {
         try{
 
             // 서버로 보내기
-            let response = await useDataFetch("auth/signin", {
+            let response = await useCSRFetch("auth/signin", {
                 // usePost()
                 method: "POST",
                 headers: {
@@ -30,13 +33,9 @@
                     password: password.value,
                 }
             });
-
-    
-            console.log(response);
     
             if (!response || !response.token) {
-                console.log(response);
-                
+                console.log("응답 확인", response);
                 return;
             }
             
@@ -50,9 +49,15 @@
                 roles: userInfo.roles.map(role => role.authority),
                 token: response.token
             });
+
+            userInfo.roles.map(role=>{console.log(role, role.authority)});
             console.log("로그인 완료", userInfo);
-            console.log('전송', username.value, password.value);
-            const returnURL = useRoute().query.returnURL || "/";
+            console.log("로그인 완료", userDetails);
+            console.log("query.returnURL", query.returnURL);
+
+            // 미들웨어에서 returnURL에 값이 담겨오는지 확인
+            const returnURL = useRoute().query.returnURL || (userInfo.roles.includes('ROLE_MEMBER') ? '/websites' : '/member/websites');
+            console.log("returnURL", returnURL);
             return navigateTo(returnURL);
         } catch(error){
             console.log(error);
@@ -74,6 +79,7 @@
             console.log(userInfo);
         }
         const returnURL = useRoute().query.returnURL || "/";
+        
         return navigateTo(returnURL);
     }
 
@@ -89,7 +95,7 @@
             <form @submit.prevent="localLoginHandler">
                 <label style="">
                     <span>이메일</span>
-                    <input type="email" v-model="username" autofocus autocomplete="on" required/>
+                    <input type="email" v-model="username" autofocus required/>
                 </label>
                 
                 <label style="position: relative;">

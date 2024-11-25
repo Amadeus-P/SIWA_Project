@@ -1,6 +1,9 @@
-export default  function useAuthFetch(url, options={}) { // 사용자가 전달한URL, 옵션이 없을 땐 빈 객체
+export default function useSSRFetch(url, options={}) { // 사용자가 전달한URL, 옵션이 없을 땐 빈 객체
     
-    const { token } = useUserDetails(); // 토큰을 가져오는 곳
+    // 중괄호로 원하는 속성만 가져왔다. 아래 코드와 같은 기능
+    // const userDetails = useUserDetails();
+    // const token = userDetails.token;
+    const { token } = useUserDetails();
 
     options.headers = {
         ...options.headers,

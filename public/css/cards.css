@@ -31,22 +31,28 @@
     <div>
 </section> 
 */
+/* 카드 리스트 스타일  */
 .website-list{
-    /* 모든 웹사이트의 공통 스타일  */
     display: flex;
     flex-basis: 100%;
+
     flex-wrap: wrap;
     justify-content: start;
     flex-shrink: 0;
 }
+/* 카드 스타일 */
 .website-card{
-    /* 웹 사이트 하나의 스타일 */
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    
+    box-sizing: border-box;
 
-    width: 100%;
+    margin: 10px;
     margin-bottom:20px;
+    
+    width: 100%;
+    border-radius: 8px;
 }
 .website-img{
     width: 100%;
@@ -54,6 +60,7 @@
     object-fit:cover;
     aspect-ratio: 16/9;
 }
+
 
 /* admin/edit */
 .form-edit-box{

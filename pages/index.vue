@@ -1,52 +1,43 @@
 <script setup>
+
 </script>
 
 <template>
+    <!-- 프로젝트 안의 파일 경로 불러오기 -->
+    <Head>
+        <!-- <Link rel="" href="/js/ball.js"/> -->
+        
+    </Head>
     <main>
-        <h1>메인 페이지</h1>
-
-        <section class="notice">
-            <h1>공지사항</h1>
-            <span class="notice-title">공지사항입니다.</span>
-            <p class="notice-content" style="">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
-            </p>
-        </section>
         <NuxtLink to="/websites">웹사이트 목록</NuxtLink>
+        <NuxtLink to="/dev">연습장</NuxtLink>
     </main>
 </template>
 
 <style scoped>
-    .notice{
-        border: 1px solid var(--base-color-3);
-        border-radius: 5px;
-        margin: 10px;
+* {
+  margin: 0;
+  padding: 0;
+}
 
-        display: flex;
-        flex-wrap: wrap;
+html {
+  width: 100%;
+  height: 100%;
+}
 
-        >.notice-title{
-            font-size: 24px;
-            font-weight: var(--font-weight-6);
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
 
-            width: 100%;
-            width: 100%;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        >.notice-content{
-            width: 100%;
-            font-size: 20px;
-            font-weight: var(--font-weight-4);
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-    }
-
+canvas {
+  /* 블랙홀 차콜 */
+  /* background-color: #1C2833; */
+  /* 인터스텔라 블루 */
+  /* background-color: #2C3E50; */
+  width: 100%;
+  height: 100%;
+  /* border: 1px solid grey; */
+}
 </style>
-

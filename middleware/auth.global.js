@@ -1,20 +1,33 @@
 export default defineNuxtRouteMiddleware((to, from)=>{
-    console.log(to);
     const userDetails = useUserDetails();
-    
-    // 인증했는지 확인(인증정보를 가지고 있는지 로그인 유무로 확인)
-    // 안했으면 로그인 페이지로.
-    //  했으면 다음 단계 진행
-    if(to.path.startsWith("/member")) { // 회원 페이지로 가려 할 때
-        // if(userDetails.username == null) // 로그인 안 했으면
-        if(userDetails.isGhost()){
-            // return navigateTo("/signin"); // nuxt 고유 기능
-            return navigateTo(`/signin?returnURL=${to.fullPath}`); // 다시 되돌아갈 페이지의 절대경로
-        }
-        if(!userDetails.hasRole("ROLE_MEMBER")){
-            return navigateTo("/error403"); 
-        }
+
+    if (!import.meta.env.SSR) { // import.meta.client
+
+      if (to.path === '/' && !userDetails.token.value) {
+        console.log("to.path", to.path);
+        return navigateTo('/websites')
+      }
+      if (to.path === '/' && userDetails.token.value) {
+        console.log("to.path", to.path);
+        return navigateTo('/member/websites')
+      }
+
+      //   if (to.path.startsWith('/websites') && userDetails.token.value) {
+      //     // 회원이라면 회원 전용 페이지로 리다이렉트
+      //     return navigateTo('/member/websites');
+      // }
+      
+      if(to.path.startsWith("/member")) {
+          console.log("to.path", to.path);
+          if(userDetails.isGhost()){
+              console.log('Redirecting to login:', to.fullPath);
+              return navigateTo(`/signin?returnURL=${encodeURIComponent(to.fullPath)}`); 
+          }
+          // 회원이 아니면 에러 페이지로.
+          if(!userDetails.hasRole("ROLE_MEMBER")){
+              return navigateTo("/error403"); // 보안(권한) 에러
+          }
+      }
+
     }
-    // 관리자면 
-    //  아니라면 404 에러
 });

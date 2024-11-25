@@ -1,32 +1,42 @@
 <script setup>
 import { onBeforeMount, onBeforeUpdate, onMounted, onUpdated, ref, watchEffect  } from 'vue';
-// import { index } from '../../../public/js';
-// Category 컴포넌트 import 추가
-import Category from '~/components/Category.vue';
+import { FormatRelativeTime } from '~/public/js/formatRelativeTime';
 
+// 설정
+const config = useRuntimeConfig();
 const userDetails = useUserDetails();
 
+// 동적 CSS 변수
+const selectedMainCategory = ref("");
+
+const isLoading = ref(false);
+const error = ref(null);
+
+// 웹사이트 페이지 정보
 let startNum = 0;
 let totalPages = 0;
 let hasPreviousPage = false;
 let hasNextPage = false;
 const pageNumbers = ref([1,2,3,4,5]);
-const keyword = ref({});
+
+// 검색
+const keyWord = ref('');
+const searchResults = ref([]); // 검색 결과를 저장할 배열
 
 // 카테고리
 const mainCategories = ref([]);
 const subCategories = ref([]);
 const detailCategories = ref([]);
-const filteredWebsite = ref([]);
+const filteredWebsite = ref([]); // 화면에 나올 웹사이트 목록 변수
 
 //  데이터 fetch 저장 객체
 const websites = ref([]);
 const categories = ref([]);
 
 // SSR {response}
-// const {data: websiteData} = await useAuthFetch("websites");
-// const {data: categoryData} = await useAuthFetch("categories");
-const {data: categoryData} = await useAuthFetch("categories", {
+// 전체 카테고리로 보여주기 위해 미리 가져오는 데이터
+const {data: websiteData} = await useSSRFetch("websites");
+const {data: categoryData} = await useSSRFetch("categories", {
         params: {
             parentId: null
         }
@@ -34,30 +44,38 @@ const {data: categoryData} = await useAuthFetch("categories", {
 
 // api 데이터 감시
 watchEffect(() => {
-    // if(websiteData.value) {
-    //     websites.value = websiteData.value.websiteListDtos;
-        
-    //     console.log("웹사이트: ",websites.value);
-        
-    //     startNum = websiteData.value.pages[0];
-    //     hasPreviousPage = websiteData.value.hasPreviousPage;
-    //     hasNextPage = websiteData.value.hasNextPage;
-        
-    //     console.log("startNum: ", startNum, "hasPreviousPage: ", hasPreviousPage, "hasNextPage: ", hasNextPage);
-    // }
+    if(websiteData.value) {
+        websites.value = websiteData.value;
+        // console.log("최신 웹사이트: ", websites.value);
+    }
     if(categoryData.value) {
         categories.value = categoryData.value;
-        console.log("최신 카테고리: ", categories.value);
+        // console.log("최신 카테고리: ", categories.value);
     }
     mainCategories.value = categories.value.categoryListDtos;
-    console.log("대분류", mainCategories.value);
+    // console.log("대분류", mainCategories.value);
 });
 
-
+// 상대 시간으로 변환된 데이터
+const formatRelativeTime = new FormatRelativeTime()
+    const filteredWebsiteWithTime = computed(() =>{   
+        if (Array.isArray(filteredWebsite.value)) {
+            return filteredWebsite.value.map((w) => ({
+                ...w,
+                relativeTime: formatRelativeTime.formatRelativeTime(w.regDate),
+            }))
+        }
+        if (filteredWebsite.value && typeof filteredWebsite.value === 'object') {
+            return Object.values(filteredWebsite.value).map((w) => ({
+            ...w,
+            relativeTime: formatRelativeTime.formatRelativeTime(w.regDate),
+            }));
+        }
+    });
 const fetchCategory = async(categoryId, type) => {
     try{
         // CRS response 
-        const categoryResponse = await useDataFetch("categories", {
+        const categoryResponse = await useCSRFetch("categories", {
             params: {
                 parentId: categoryId
             }
@@ -67,12 +85,13 @@ const fetchCategory = async(categoryId, type) => {
             return;
         }
         if (type === 'sub') {
-                subCategories.value = categoryResponse.categoryListDtos;
-                console.log("중분류 데이터: ", subCategories.value);
+            detailCategories.value = [];
+            subCategories.value = categoryResponse.categoryListDtos;
+            // console.log("중분류 데이터: ", subCategories.value);
 
             } else if (type === 'detail') {
                 detailCategories.value = categoryResponse.categoryListDtos;
-                console.log("소분류 데이터: ", detailCategories.value);
+                // console.log("소분류 데이터: ", detailCategories.value);
             } else {
                 console.error("유효하지 않은 type: ", type);
             }
@@ -83,7 +102,7 @@ const fetchCategory = async(categoryId, type) => {
 
     const fetchWebsites = async (detailCategoryId, keyword) => {
     try {
-        const websiteResponse = await useDataFetch("websites", {
+        const websiteResponse = await useCSRFetch("websites", {
             params: { 
                 categoryId: detailCategoryId ,
                 keyWord: keyword
@@ -97,12 +116,59 @@ const fetchCategory = async(categoryId, type) => {
 
         filteredWebsite.value = websiteResponse.websiteListDtos;
         console.log(`소분류 ID ${detailCategoryId}의 웹사이트 데이터:`, filteredWebsite.value);
+        
     } catch (error) {
         console.error("웹사이트 데이터 가져오기 중 오류 발생: ", error);
     }
 };
 
-const selectAllMainHandler = (mainCategoryId) => {
+const searchHandler = async () => {
+    if (!keyWord.value.trim()) {
+        // 빈 입력 방지
+        searchResults.value = [];
+        return;
+    }
+
+    try {
+        isLoading.value = true;
+        error.value = null;
+
+        // 서버로 검색 요청
+        const response = await useCSRFetch("websites", {
+            method: "GET",
+            params: {
+                keyWord: keyWord.value,
+            },
+        });
+
+        if (response && response.websiteListDtos) {
+            searchResults.value = response.websiteListDtos; // 검색 결과 업데이트
+        } else {
+            searchResults.value = [];
+            console.warn("검색 결과가 없습니다.");
+        }
+    } catch (err) {
+        console.error("검색 중 오류 발생:", err);
+        error.value = "검색 요청 중 오류가 발생했습니다.";
+    } finally {
+        isLoading.value = false;
+    }
+};
+
+const onBookmark = async () => {
+    if(userDetails.isGhost()) {
+        return navigateTo('/siginin');
+    }
+};
+
+const selectAllMainHandler = async (name) => {
+    selectedMainCategory.value = name;
+    console.log('selectedMainCategory:', selectedMainCategory.value);
+    if(name === "전체"){
+        const allWebsitesResponse = await useCSRFetch("websites");
+        filteredWebsite.value = allWebsitesResponse.websiteListDtos;
+        // console.log("전체 카테고리 웹사이트 데이터: ", filteredWebsite.value);
+    }
 }
 
 const pageClickHandler = (page)=>{
@@ -132,11 +198,12 @@ onBeforeMount(()=>{
 });
 onMounted(()=>{
     console.log("onMounted");
-    // if (mainCategories.value.length > 0) {
         // "전체" 카테고리를 자동으로 선택하도록 설정
-        // selectedMainCategoryId.value = mainCategories.value[0].id;
-        // selectAllMainHandler(mainCategories.value[0].id);
-    // }
+        console.log('selectedMainCategory:', selectedMainCategory.value);
+    if (mainCategories.value.length > 0) {
+        selectAllMainHandler(mainCategories.value[0].name);
+    }
+
 });
 onBeforeUpdate(()=>{
     console.log("onBeforeUpdate");
@@ -167,8 +234,6 @@ onUpdated(()=>{
                         display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
                     <li>
                         <NuxtLink v-if="userDetails.isGhost()" class="btn btn:round" to="/signin">로그인</NuxtLink>
-                        <!-- <span v-else class="btn btn:round">{{ userDetails.profileName }}</span> -->
-                        <button v-else class="btn btn:round" @click="userDetails.signout()">{{ userDetails.profileName }} 로그아웃</button>
                     </li>
                 </ul>
             </nav>
@@ -176,17 +241,17 @@ onUpdated(()=>{
         <section style="display: flex; justify-content: end; flex-basis: 100%; margin: 0 10px 10px;">
             <h1>검색</h1>
             <div style="display: flex; padding: 5px 10px; width: 100%; border: 1px solid var(--base-color-1); border-radius: var(--border-radius-px-1)">
-            <!--     <NuxtLink to="/search" class="icon:search text-hidden" style="width: 100%;">
-                    <span class="">검색</span>
-                </NuxtLink> -->
-            <form role="search">
-                <label class="" style="width: calc(100% - 40px); position: relative;">
-                    <input type="search" name="keyword" placeholder="이름 또는 카테고리로 검색" autocomplete="off"
-                        style="margin-left: 40px;">
-                </label>
-                <span class="icon:search text-hidden" style="position: absolute; left: 20px;">검색</span>
-            </form>
-            </div>
+            
+                <form role="search" @submit.prevent="searchHandler">
+                    <label class="" style="width: calc(100% - 40px); position: relative;">
+                        <input type="search" placeholder="검색어를 입력해주세요." style="margin-left: 40px;"
+                            v-model="keyWord">
+
+                    </label>
+                    <span class="icon:search text-hidden" style="position: absolute; left: 20px;">검색</span>
+                </form>
+            
+        </div>
         </section>
 
     </header>
@@ -198,81 +263,94 @@ onUpdated(()=>{
         <section>
             <h1>메인 페이지</h1>
             
-        <nav style="margin-top: 10px;">
-            <h1>대분류 카테고리</h1>
-            <ul class="main-category">
-                <li style="display: flex; align-items:center; justify-content: space-evenly; ">
-                    <label class="icon:font-2 icon:text-bottom"
-                    v-for="c in mainCategories" :key="c.id" v-bind:class="`icon:${c.iconName}`" @click="fetchCategory(c.id, 'sub')">
-                        <span>{{ c.name }}</span>
-                        <!-- 선택한 카테고리의 아이디가 동적으로 변함-->
-                            <input type="radio" name="main-category" :value="c.id">
-                    </label>
-                </li>
-            </ul>
-        </nav>
-        <nav  style="margin: 10px 0;">
-            <h1>중분류 카테고리</h1>
-            <ul class="sub-category">
-                <li style="display: flex;">
-                    <label class="btn btn:square" v-for="c in subCategories" :key="c.id" @click="fetchCategory(c.id, 'detail')">
-                        <span>{{ c.name }}</span>
-                        <input type="radio" name="sub-category">
-                    </label>
-                </li>
-            </ul>
-        </nav>
-        <nav style="margin: 10px 0;">
-            <h1>소분류 카테고리</h1>
-            <ul class="detail-category">
-                <li style="display: flex;">
-                    <label class="btn btn:round" v-for="c in detailCategories" :key="c.id" @click="fetchWebsites(c.id)">
-                        <span>{{ c.name }}</span>
-                        <input type="radio" name="detail-category-languege">
-                    </label>
-                </li>
-            </ul>
-        </nav>
-            
-            <section style="display: flex; justify-content: end; gap: 5px;">
-                <h1>필터</h1>
-                <ul class="vertical-bar filter-list" style="">
-                    <li>
-                        <label>
-                            <input type="radio" name="filter" value="recommend" checked>추천순
-                        </label>
-                    </li>
-                    <li>
-                        <label>
-                            <input type="radio" name="filter" value="recommend">인기순
-                        </label>
-                    </li>
-                    <li>
-                        <label>
-                            <input type="radio" name="filter" value="recommend">최신순
+            <nav style="margin-top: 10px;">
+                <h1>대분류 카테고리</h1>
+                <ul class="main-category">
+                    <li style="display: flex; align-items:center; justify-content: space-evenly; " v-for="c in mainCategories" :key="c.id">
+                        <label class="icon:font-2 icon:text-bottom"
+                        :class="[`icon:${c.iconName}`, {'activeMain': c.name === selectedMainCategory} ]" 
+                        @click="fetchCategory(c.id, 'sub'); selectAllMainHandler(c.name);">
+                            <span>{{ c.name }}</span>
+                            <input type="radio" name="main-category">
                         </label>
                     </li>
                 </ul>
-            </section>
-            <section class="website-list" style="overflow: hidden;">
-                <h1>웹사이트 목록</h1>
-                <div v-for="w in  filteredWebsite" :key="w.id" class="website-card" style="position: relative;">
-                    <NuxtLink :to="`websites/${w.id}`">
-                        <img class="website-img" :src="w.images?.length ? w.images[0].src : '/img/website/default.png'" alt="웹사이트 이미지">
+            </nav>
+            <nav  style="margin: 10px 0;">
+                <h1>중분류 카테고리</h1>
+                <ul class="sub-category">
+                    <li style="display: flex;" v-for="c in subCategories" :key="c.id">
+                        <label class="btn btn:square" 
+                        @click="fetchCategory(c.id, 'detail')">
+                            <span>{{ c.name }}</span>
+                            <input type="radio" name="sub-category">
+                        </label>
+                    </li>
+                </ul>
+            </nav>
+            <nav style="margin: 10px 0;">
+                <h1>소분류 카테고리</h1>
+                <ul class="detail-category">
+                    <li style="display: flex;" v-for="c in detailCategories" :key="c.id">
+                        <label class="btn btn:round" @click="fetchWebsites(c.id)">
+                            <span>{{ c.name }}</span>
+                            <input type="radio" name="detail-category-languege">
+                        </label>
+                    </li>
+                </ul>
+            </nav>
+
+            <section class="website-list" v-if="searchResults.length">
+                <h1>검색 결과 목록</h1>
+                <div v-for="w in searchResults" :key="w.id" class="website-card"
+                    style="position: relative; overflow: hidden;">
+                    <NuxtLink :to="`/member/websites/${w.id}`">
+                        <img class="website-img"
+                            :src="w.images?.length ? `${config.public.apiBase}website/${w.images[0].src}` : '/img/website/default.png'"
+                            alt="대표 이미지" />
                     </NuxtLink>
-                    <span class="icon:like icon:font-1 text-hidden">좋아요</span>
                     <ul class="website-content">
                         <li style="display: flex; justify-content: space-between;">
-                            <span class="text-overflow" style="width: 80%; font-size: var(--font-size-4); font-weight: var(--font-weight-6);">{{ w.title }}</span>
-                            <span class="icon:more text-hidden"
-                                    style="position: absolute; top: 0; right: 0;">더보기</span>
+                            <span class="text-overflow"
+                                style="font-size: var(--font-size-4); font-weight: var(--font-weight-6);">
+                                {{ w.title }}
+                            </span>
                         </li>
-                        <li style="display: flex; gap: 2px;">
-                            <div class="btn btn:square">
-                                {{ w.regDate }}
+                        <li style="display: flex;">
+                            <div class="btn">
+                                {{ w.relativeTime }}
                             </div>
-                            <div class="btn btn:square">
-                                인기 #10
+                            <div class="btn icon:liked">
+                                <span>100%</span>
+                            </div>
+                            <div class="btn icon:views">
+                                <span>1만</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="website-list" v-else>
+                <h1>웹사이트 목록</h1>
+                <div v-for="w in  filteredWebsiteWithTime" :key="w.id" class="website-card" style="position: relative; overflow: hidden;">
+                    <NuxtLink :to="`/websites/${w.id}`">
+                        <img class="website-img" :src="w.images?.length ? `${config.public.apiBase}website/${w.images[0].src}` : '/img/website/default.png'" alt="대표 이미지">
+                    </NuxtLink>
+                    <ul class="website-content">
+                        <li style="display: flex; justify-content: space-between;">
+                            <span class="text-overflow" style="font-size: var(--font-size-4); font-weight: var(--font-weight-6);">{{ w.title }}</span>
+                            <!-- <span class="icon:more text-hidden" style="position: absolute; right: 0;">더보기</span> -->
+                        </li>
+                        <li style="display: flex;">
+                            <div class="btn">
+                                {{ w.relativeTime }}
+                            </div>
+                            <div class="btn icon:liked">
+                                <span>100%</span>
+                            </div>
+                            <div class="btn icon:views">
+                                <span>1만</span>
                             </div>
                         </li>
                     </ul>
@@ -285,7 +363,7 @@ onUpdated(()=>{
     <section class="main-footer" style="margin-bottom: 60px;">
         <ul class="pagination" style="display: flex; justify-content: center; gap: 15px;">
             <li v-for="p in pageNumbers" :key="p">
-                <NuxtLink class="pager"   :class="{'activePager' : p ==  useRoute().query.p}" :to="`./?page=${p}`" @Click="pageClickHandler">{{ p }}</NuxtLink>
+                <NuxtLink class="pager"   :class="{'activePager' : p ==  useRoute().query.p}" :to="`websites?page=${p}`" @Click="pageClickHandler">{{ p }}</NuxtLink>
             </li>
         </ul>
     </section>
